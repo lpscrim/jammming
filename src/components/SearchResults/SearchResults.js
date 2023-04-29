@@ -1,9 +1,10 @@
 
-function SearchResults() {
+function SearchResults(props) {
 
     return (
-        <div>
-            
+        <div ClassName="SearchResults">
+            <h2>Results</h2>
+            <Tracklist results={props.results}/>
         </div>
     );
 }

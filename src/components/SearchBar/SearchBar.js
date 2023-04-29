@@ -12,7 +12,7 @@ function SearchBar(props) {
     };
     
     return (
-        <div>
+        <div className="SearchBar">
             <input type="text" onChange={termChangeHandler} placeholder={placeholder} id="SearchBar"></input>
             <button onClick={searchHandler} className="SearchButton">SEARCH</button>
         </div>

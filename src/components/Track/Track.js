@@ -2,10 +2,10 @@
 function Track(props) {
     
     return (
-        <div className="Track">
+        <div id={props.id} className="Track">
             <div className="Track-information">
-                <h3>{props.track.name}</h3>
-                <p> {props.track.artist} |  {props.track.album} </p>
+                <h3>{props.name}</h3>
+                <p> {props.artist} |  {props.album} </p>
             </div>
         </div>
     );
