@@ -4,8 +4,8 @@ function SearchBar(props) {
     const placeholder = props.searchTerm ? props.searchTerm : "Enter A Song, Album, or Artist";
 
     function termChangeHandler(event) {
-        const searchTerm = event.target.value;
-        props.setSearchTerm(searchTerm);    
+        const newSearchTerm = event.target.value;
+        props.setSearchTerm(newSearchTerm);    
     };
     function searchHandler() {
         props.onSearch(props.searchTerm);
