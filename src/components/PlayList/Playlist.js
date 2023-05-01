@@ -1,11 +1,16 @@
 
-function Playlist() {
+function Playlist(props) {
+
+    function handleNameChange(e) {
+        props.onNameChange(e.target.value);
+    };
 
     return (
-        <div>
-            
+        <div className="Playlist">
+            <input defaultValue={props.name} onChange={handleNameChange} />
+            <TrackList tracks={props.tracks} />
         </div>
     );
-}
+};
 
 export default Playlist;

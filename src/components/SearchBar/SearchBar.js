@@ -3,11 +3,11 @@ function SearchBar(props) {
     
     const placeholder = props.searchTerm ? props.searchTerm : "Enter A Song, Album, or Artist";
 
-    function termChangeHandler(event) {
-        const newSearchTerm = event.target.value;
+    function termChangeHandler(e) {
+        const newSearchTerm = e.target.value;
         props.onSearchTerm(newSearchTerm);    
     };
-    
+
     function searchHandler() {
         props.onSearch(props.searchTerm);
     };

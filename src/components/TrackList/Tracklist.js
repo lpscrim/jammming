@@ -3,8 +3,8 @@ function TrackList(props) {
 
     return (
         <div className="Tracklist">
-            {props.results.map((result,i) => (
-                <Track id={result.id} key={result.i} artist={result.artist} name={result.name} album={result.album} />
+            {props.tracks.map((track,i) => (
+                <Track id={track.id} key={track.i} artist={track.artist} name={track.name} album={track.album} />
             ))}
         </div>
     );

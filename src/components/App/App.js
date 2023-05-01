@@ -7,10 +7,18 @@ import spotifySearch from '...'
 
 const [results, setResults] = useState(0);
 
-const [searchTerm, setSearchTerm] = useState(0)
+const [searchTerm, setSearchTerm] = useState(0);
+
+const [playlistName, setPlaylistName] = useState(0);
+
+const playlistTracks = ...
 
 function onSearchTerm(term){
   setSearchTerm(term);
+}
+
+function onNameChange(name){
+  setPlaylistName(name)
 }
 
 function onSearch(term) {
@@ -25,7 +33,7 @@ function App() {
       <div>
       <SearchBar onSearchTerm={onSearchTerm} searchTerm={searchTerm} onSearch={onSearch} />
       <SearchResults results={results} />
-      <Playlist {...}/>
+      <Playlist onNameChange={onNameChange} name={playlistName} tracks={playlistTracks} />
       </div>
       
     </div>
