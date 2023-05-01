@@ -5,8 +5,9 @@ function SearchBar(props) {
 
     function termChangeHandler(event) {
         const newSearchTerm = event.target.value;
-        props.setSearchTerm(newSearchTerm);    
+        props.onSearchTerm(newSearchTerm);    
     };
+    
     function searchHandler() {
         props.onSearch(props.searchTerm);
     };
