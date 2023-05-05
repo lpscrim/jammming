@@ -1,6 +1,6 @@
 import Track from "../Track/Track";
 
-function TrackList(props) {
+function Tracklist(props) {
 
     return (
         <div className="Tracklist">
@@ -19,4 +19,4 @@ function TrackList(props) {
     );
 }
 
-export default TrackList;
+export default Tracklist;

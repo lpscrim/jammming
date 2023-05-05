@@ -5,13 +5,16 @@ import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 //import spotifySearch from '...';
 
-const [results, setResults] = useState(0);
 
-const [searchTerm, setSearchTerm] = useState(0);
+function App() {
 
-const [playlistName, setPlaylistName] = useState(0);
+const [results, setResults] = useState([]);
 
-const [playlistTracks, setPlaylistTracks] = useState(0);
+const [searchTerm, setSearchTerm] = useState('');
+
+const [playlistName, setPlaylistName] = useState('0');
+
+const [playlistTracks, setPlaylistTracks] = useState([]);
 
 function onSearchTerm(term){
   setSearchTerm(term);
@@ -36,7 +39,6 @@ function onRemove(track) {
 }
 
 
-function App() {
   return (
     <div className="App">
       <header className="App-header">JAMMMING</header>

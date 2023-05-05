@@ -1,3 +1,4 @@
+import Tracklist from '../Tracklist/Tracklist';
 
 function Playlist(props) {
 
@@ -8,7 +9,7 @@ function Playlist(props) {
     return (
         <div className="Playlist">
             <input defaultValue={props.name} onChange={handleNameChange} />
-            <TrackList 
+            <Tracklist 
                 tracks={props.tracks}
                 onRemove={props.onRemove}
             />
