@@ -3,7 +3,7 @@ import Tracklist from '../Tracklist/Tracklist';
 function SearchResults(props) {
 
     return (
-        <div ClassName="SearchResults">
+        <div className="SearchResults">
             <h2>Results</h2>
             <Tracklist 
                 tracks={props.results}
@@ -13,4 +13,4 @@ function SearchResults(props) {
     );
 }
 
-export default SearchResults;
+export default SearchResults; 

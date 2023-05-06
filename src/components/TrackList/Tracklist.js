@@ -4,15 +4,13 @@ function Tracklist(props) {
 
     return (
         <div className="Tracklist">
-            {props.tracks.map((track,i) => (
+            {props.tracks.map((track) => (
                 <Track 
                     id={track.id} 
-                    key={track.i} 
-                    artist={track.artist} 
-                    name={track.name} 
-                    album={track.album}
+                    key={track.id} 
                     onRemove={props.onRemove}
                     onAdd={props.onAdd}
+                    track={track}
                 />
             ))}
         </div>

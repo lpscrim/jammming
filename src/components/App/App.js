@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 //import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
@@ -12,7 +13,7 @@ const [results, setResults] = useState([]);
 
 const [searchTerm, setSearchTerm] = useState('');
 
-const [playlistName, setPlaylistName] = useState('0');
+const [playlistName, setPlaylistName] = useState('My Playlist');
 
 const [playlistTracks, setPlaylistTracks] = useState([]);
 
@@ -25,22 +26,50 @@ function onNameChange(name){
 }
 
 function onSearch(term) {
-  setResults(spotifySearch(term));
+  //setResults(spotifySearch(term));
+  setResults(term);
+  
 }
 
 function onAdd(track) {
   if (!playlistTracks.find(playlistTrack => playlistTrack.id === track.id)) {
-    setPlaylistTracks(prevList => prevList.push(track));
-  }
+    setPlaylistTracks(playlistTracks => [...playlistTracks, track]);
+  };
 }
 
 function onRemove(track) {
-  setPlaylistTracks(playlistTracks.filter(playlistTrack => playlistTrack.id != track.id));
+  setPlaylistTracks(playlistTracks.filter(playlistTrack => playlistTrack.id !== track.id));
+}
+
+function onSave() {
+setPlaylistTracks([
+  { "id":1,
+    "name":'',
+    "uri":'1235',
+    "artist":'',
+    "album":''
+    },
+    {
+    "id":2,
+    "name":'',
+    "uri":'1234',
+    "artist":'',
+    "album":''
+    }
+  ]);
+
+  const savedUri = playlistTracks.map(playlistTrack => playlistTrack.uri);
+  //Spotify.savePlaylist(setplaylistName, savedList);
+  setResults([]);
+  setPlaylistName('My Playlist');
+  console.log(savedUri);
 }
 
 
   return (
+    
     <div className="App">
+      <button onClick={onSave}>clickme</button>
       <header className="App-header">JAMMMING</header>
       <div>
       <SearchBar 

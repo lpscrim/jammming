@@ -1,27 +1,27 @@
 
 function Track(props) {
     
-    function renderButton(props){
+    function renderButton(){
         if (props.onAdd) {
-            return <button className='Track-button' onClick={handleAddTrack()}>+</button>;
+            return <button className='Track-button' onClick={handleAddTrack}>+</button>;
           } else {
-            return <button className='Track-button' onClick={handleRemoveTrack()}>-</button>;
+            return <button className='Track-button' onClick={handleRemoveTrack}>-</button>;
           }
     }
 
-    function handleAddTrack(event) {
-        props.onAdd(event.target);
+    function handleAddTrack() {
+        props.onAdd(props.track);
     }
 
-    function handleRemoveTrack(event) {
-        props.onRemove(event.target);
+    function handleRemoveTrack() {
+        props.onRemove(props.track);
     }
 
     return (
-        <div id={props.id} className="Track">
+        <div id={props.track.id} className="Track">
             <div className="Track-information">
-                <h3>{props.name}</h3>
-                <p> {props.artist} |  {props.album} </p>
+                <h3>{props.track.name}</h3>
+                <p> {props.track.artist} |  {props.track.album} </p>
             </div>
             {renderButton()}
         </div>
