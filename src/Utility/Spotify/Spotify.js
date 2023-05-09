@@ -59,3 +59,4 @@ async function spotifySearch(term) {
 
 }
 
+export default spotifySearch;

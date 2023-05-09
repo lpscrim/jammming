@@ -26,9 +26,8 @@ function onNameChange(name){
 }
 
 function onSearch(term) {
-  //setResults(spotifySearch(term));
-  setResults(term);
-  
+  let spotifySearchResults = spotifySearch(term);
+  setResults(spotifySearchResults);
 }
 
 function onAdd(track) {
