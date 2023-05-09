@@ -2,7 +2,7 @@ const clientId = '87cfc90456484b70a7997e4351f62239';
 const encClientId= encodeURIComponent(clientId);
 const redirectUri = 'http://localhost:8888/callback';
 const encRedirect_uri= encodeURIComponent(redirectUri);
-const clientSecret = '7a948a4cc337480c944b750ace086b8e';
+//const clientSecret = '7a948a4cc337480c944b750ace086b8e';
 const url = 'https://accounts.spotify.com/authorize?response_type=token&client_id=' + encClientId + '&redirect_uri=' + encRedirect_uri;
 
 let accessToken;
@@ -36,7 +36,7 @@ function getAccessToken() {
 
 async function spotifySearch(term) {
 
-    const accessToken = Spotify.getAccessToken();
+    const accessToken = getAccessToken();
 
     //included limit of 20 tracks and track type in search.
     const response = await fetch("https://api.spotify.com/v1/search?type=track&limit=20&q=" + term, {
