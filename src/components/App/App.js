@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
-//import spotifySearch from '...';
-
+import { spotifySearch, savePlaylist } from '../../Utility/Spotify/Spotify';
 
 function App() {
 
@@ -41,34 +40,18 @@ function onRemove(track) {
 }
 
 function onSave() {
-setPlaylistTracks([
-  { "id":1,
-    "name":'',
-    "uri":'1235',
-    "artist":'',
-    "album":''
-    },
-    {
-    "id":2,
-    "name":'',
-    "uri":'1234',
-    "artist":'',
-    "album":''
-    }
-  ]);
 
-  const savedUri = playlistTracks.map(playlistTrack => playlistTrack.uri);
-  //Spotify.savePlaylist(setplaylistName, savedList);
+  let savedList = playlistTracks.map(playlistTrack => playlistTrack.uri);
+  savePlaylist(playlistName, savedList);
   setResults([]);
   setPlaylistName('My Playlist');
-  console.log(savedUri);
+  console.log(savedList);
 }
 
 
   return (
     
     <div className="App">
-      <button onClick={onSave}>clickme</button>
       <header className="App-header">JAMMMING</header>
       <div>
       <SearchBar 
@@ -85,6 +68,7 @@ setPlaylistTracks([
         name={playlistName} 
         tracks={playlistTracks}
         onRemove={onRemove}
+        onSave={onSave}
       />
       </div>
       

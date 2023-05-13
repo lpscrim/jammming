@@ -40,7 +40,7 @@ async function spotifySearch(term) {
 
     //included limit of 20 tracks and track type in search.
     const response = await fetch("https://api.spotify.com/v1/search?type=track&limit=20&q=" + term, {
-        headers: { Authorization: "Bearer " + accessToken }
+        headers: { "Authorization": "Bearer " + accessToken }
     });
 
     const jsonResponse = await response.json();
@@ -59,4 +59,35 @@ async function spotifySearch(term) {
 
 }
 
-export default spotifySearch;
+async function savePlaylist(playlistName, saveList) {
+
+    const response = await fetch('https://api.spotify.com/v1/me', {
+        headers: {Authorization: "Bearer undefined...undefined"}
+    });
+
+    const jsonResponse = await response.json();
+
+    const username = jsonResponse.id;
+
+    const responseNp = await fetch('https://api.spotify.com/v1/users/'+ username + '/playlists', {
+        method: 'POST',
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': "Bearer undefined...undefined"
+        }, 
+        body: JSON.stringify({ name: playlistName })
+    });
+
+    const jsonResponseNp = await responseNp.json();
+
+    const playlistId = jsonResponseNp.id;
+
+    return await fetch("https://api.spotify.com/v1/users/" +  username + "/playlists/" + playlistId + "/tracks", {
+    method: "POST",    
+    headers: {},
+    body: JSON.stringify({ uris: saveList }),
+    })
+}
+
+
+export {spotifySearch, savePlaylist};
