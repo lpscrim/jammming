@@ -1,12 +1,12 @@
 const clientId = '87cfc90456484b70a7997e4351f62239';
-const encClientId= encodeURIComponent(clientId);
-const redirectUri = 'http://localhost:8888/callback';
-const encRedirect_uri= encodeURIComponent(redirectUri);
+//const encClientId= encodeURIComponent(clientId);
+const redirectUri = 'http://localhost:3000';
+//const encRedirect_uri= encodeURIComponent(redirectUri);
 //const clientSecret = '7a948a4cc337480c944b750ace086b8e';
-const url = 'https://accounts.spotify.com/authorize?response_type=token&client_id=' + encClientId + '&redirect_uri=' + encRedirect_uri;
+const url = 'https://accounts.spotify.com/authorize?response_type=token&scope=playlist-modify-public&client_id=' + clientId + '&redirect_uri=' + redirectUri;
 
-let accessToken;
-let expiresIn;
+let accessToken = '';
+let expiresIn = '';
 
 function getAccessToken() {
 
@@ -14,9 +14,14 @@ function getAccessToken() {
         return accessToken;    
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlAccessToken = urlParams.get('access_token');
-    const urlExpiresIn = urlParams.get('expires_in');
+    let urlParams = new URLSearchParams(window.location.hash.substr(1));
+    let urlAccessToken = urlParams.get("access_token");
+    let urlExpiresIn = urlParams.get("expires_in");
+
+    console.log("URL:", window.location.href);
+    console.log('URL Access Token:', urlAccessToken);
+    console.log('URL Expires In:', urlExpiresIn);
+
 
     if (urlAccessToken && urlExpiresIn) {
 
@@ -30,6 +35,7 @@ function getAccessToken() {
         window.history.pushState({}, null, '/');
 
     } else {
+        console.log('Redirecting to authorization URL:', url);
         window.location = url;
     }
 };
@@ -61,19 +67,19 @@ async function spotifySearch(term) {
 
 async function savePlaylist(playlistName, saveList) {
 
-    const response = await fetch('https://api.spotify.com/v1/me', {
-        headers: {Authorization: "Bearer undefined...undefined"}
+    const response = await fetch("https://api.spotify.com/v1/me", {
+        headers: {"Authorization": "Bearer " + accessToken}
     });
 
     const jsonResponse = await response.json();
 
     const username = jsonResponse.id;
 
-    const responseNp = await fetch('https://api.spotify.com/v1/users/'+ username + '/playlists', {
-        method: 'POST',
+    const responseNp = await fetch("https://api.spotify.com/v1/users/"+ username + "/playlists", {
+        method: "POST",
         headers: { 
-            'Content-Type':'application/json',
-            'Authorization': "Bearer undefined...undefined"
+            "Content-Type":"application/json",
+            "Authorization": "Bearer " + accessToken
         }, 
         body: JSON.stringify({ name: playlistName })
     });
@@ -84,7 +90,7 @@ async function savePlaylist(playlistName, saveList) {
 
     return await fetch("https://api.spotify.com/v1/users/" +  username + "/playlists/" + playlistId + "/tracks", {
     method: "POST",    
-    headers: {},
+    headers: {"Authorization": "Bearer " + accessToken},
     body: JSON.stringify({ uris: saveList }),
     })
 }
