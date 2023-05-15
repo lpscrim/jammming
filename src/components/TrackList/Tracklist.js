@@ -4,15 +4,17 @@ function Tracklist(props) {
 
     return (
         <div className="Tracklist">
-            {props.tracks.map((track) => (
-                <Track 
-                    id={track.id} 
-                    key={track.id} 
-                    onRemove={props.onRemove}
-                    onAdd={props.onAdd}
-                    track={track}
-                />
-            ))}
+            {props.tracks.map((track) => {
+                return (
+                    <Track 
+                        id={track.id} 
+                        key={track.id} 
+                        onRemove={props.onRemove}
+                        onAdd={props.onAdd}
+                        track={track}
+                    />
+                );
+            })};
         </div>
     );
 }
