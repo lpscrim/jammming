@@ -34,7 +34,7 @@ function getAccessToken() {
           }, expiresIn * 1000);
 
         window.history.pushState({}, null, '/');
-
+          return accessToken;
     } else {
         console.log('Redirecting to authorization URL:', url);
         window.location = url;
