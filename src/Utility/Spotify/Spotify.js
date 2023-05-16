@@ -7,7 +7,7 @@ const url = 'https://accounts.spotify.com/authorize?response_type=token&scope=pl
 
 let accessToken;
 let expiresIn;
-
+//make spotify object function
 function getAccessToken() {
 
     if(accessToken) {
@@ -43,7 +43,8 @@ function getAccessToken() {
 
 async function spotifySearch(term) {
 
-    getAccessToken();
+    accessToken = getAccessToken();
+
     console.log('URL Access Token2:', accessToken);
     //includ limit of 20 tracks (&limit=20) and track type in search.
     const response = await fetch("https://api.spotify.com/v1/search?type=track&q=" + term, {
@@ -68,13 +69,15 @@ async function spotifySearch(term) {
 
 async function savePlaylist(playlistName, saveList) {
 
+    accessToken = getAccessToken();
+
     const response = await fetch("https://api.spotify.com/v1/me", {
         headers: {Authorization: "Bearer " + accessToken}
     });
 
     const jsonResponse = await response.json();
 
-    const username = jsonResponse.id;
+    let username = jsonResponse.id;
 
     const responseNp = await fetch("https://api.spotify.com/v1/users/"+ username + "/playlists", {
         method: "POST",
@@ -90,9 +93,9 @@ async function savePlaylist(playlistName, saveList) {
     const playlistId = jsonResponseNp.id;
 
     return await fetch("https://api.spotify.com/v1/users/" +  username + "/playlists/" + playlistId + "/tracks", {
-    method: "POST",    
-    headers: {Authorization: "Bearer " + accessToken},
-    body: JSON.stringify({ uris: saveList }),
+        method: "POST",    
+        headers: {Authorization: "Bearer " + accessToken},
+        body: JSON.stringify({ uris: saveList }),
     })
 }
 

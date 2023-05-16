@@ -1,7 +1,6 @@
 import Track from "../Track/Track";
 
 function Tracklist(props) {
-
     return (
         <div className="Tracklist">
             {props.tracks.map((track) => {
@@ -14,9 +13,9 @@ function Tracklist(props) {
                         track={track}
                     />
                 );
-            })};
+            })}
         </div>
     );
-}
+};
 
 export default Tracklist;
