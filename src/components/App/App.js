@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
-import { spotifySearch, savePlaylist } from '../../Utility/Spotify/Spotify';
+import Spotify from '../../Utility/Spotify/Spotify';
 
 function App() {
 
@@ -25,7 +25,7 @@ function onNameChange(name){
 }
 
 function onSearch(term) {
-  let spotifySearchResults = spotifySearch(term);
+  let spotifySearchResults = Spotify.search(term);
   setResults(spotifySearchResults);
 }
 
@@ -42,7 +42,7 @@ function onRemove(track) {
 function onSave() {
 
   let savedList = playlistTracks.map(playlistTrack => playlistTrack.uri);
-  savePlaylist(playlistName, savedList);
+  Spotify.savePlaylist(playlistName, savedList);
   setResults([]);
   setPlaylistName('My Playlist');
   console.log(savedList);
