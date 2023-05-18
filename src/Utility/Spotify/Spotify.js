@@ -4,10 +4,9 @@ const redirectUri = 'http://localhost:3000';
 //const encRedirect_uri= encodeURIComponent(redirectUri);
 //const clientSecret = '7a948a4cc337480c944b750ace086b8e';
 const url = 'https://accounts.spotify.com/authorize?response_type=token&scope=playlist-read-private&client_id=' + clientId + '&redirect_uri=' + redirectUri;
-
 let accessToken;
-let expiresIn;
-//make spotify object function
+
+//make spotify object function?
 function getAccessToken() {
 
     if(accessToken) {
@@ -27,7 +26,7 @@ function getAccessToken() {
     if (urlAccessToken && urlExpiresIn) {
 
         accessToken = urlAccessToken;
-        expiresIn = urlExpiresIn;
+        let expiresIn = urlExpiresIn;
         console.log('Access Token2:', accessToken)
         setTimeout(() => {
             accessToken = '';
@@ -44,7 +43,6 @@ function getAccessToken() {
 async function spotifySearch(term) {
 
     accessToken = getAccessToken();
-
     console.log('URL Access Token2:', accessToken);
     //includ limit of 20 tracks (&limit=20) and track type in search.
     const response = await fetch("https://api.spotify.com/v1/search?type=track&q=" + term, {
@@ -54,31 +52,28 @@ async function spotifySearch(term) {
     const jsonResponse = await response.json();
 
     if (!jsonResponse.tracks) {
+        console.log('none returned')
         return [];
     };
 
-    return jsonResponse.tracks.items.map((track) => ({
+    return jsonResponse.tracks.items.map(track => ({
         id: track.id,
         name: track.name,
         artist: track.artists[0].name,
         album: track.album.name,
         uri: track.uri
     }));
-
-}
+};
 
 async function savePlaylist(playlistName, saveList) {
 
     accessToken = getAccessToken();
-
     const response = await fetch("https://api.spotify.com/v1/me", {
         headers: {Authorization: "Bearer " + accessToken}
     });
 
     const jsonResponse = await response.json();
-
     let username = jsonResponse.id;
-
     const responseNp = await fetch("https://api.spotify.com/v1/users/"+ username + "/playlists", {
         method: "POST",
         headers: { 

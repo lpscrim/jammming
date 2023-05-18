@@ -18,7 +18,7 @@ function SearchBar(props) {
             <button onClick={searchHandler} className="SearchButton">SEARCH</button>
         </div>
     );
-}
+};
 
 export default SearchBar;
 

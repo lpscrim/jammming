@@ -9,11 +9,8 @@ import { spotifySearch, savePlaylist } from '../../Utility/Spotify/Spotify';
 function App() {
 
 const [results, setResults] = useState([]);
-
 const [searchTerm, setSearchTerm] = useState('');
-
 const [playlistName, setPlaylistName] = useState('My Playlist');
-
 const [playlistTracks, setPlaylistTracks] = useState([]);
 
 function onSearchTerm(term){
@@ -25,8 +22,8 @@ function onNameChange(name){
 }
 
 function onSearch(term) {
-  let spotifySearchResults = spotifySearch(term);
-  setResults(spotifySearchResults);
+  spotifySearch(term).then(setResults);
+  console.log(results);
 }
 
 function onAdd(track) {
@@ -40,7 +37,6 @@ function onRemove(track) {
 }
 
 function onSave() {
-
   let savedList = playlistTracks.map(playlistTrack => playlistTrack.uri);
   savePlaylist(playlistName, savedList);
   setResults([]);
@@ -52,7 +48,9 @@ function onSave() {
   return (
     
     <div className="App">
-      <header className="App-header">JAMMMING</header>
+      <header className="App-header">
+        JAMMMING
+      </header>
       <div>
       <SearchBar 
         onSearchTerm={onSearchTerm} 
@@ -71,7 +69,6 @@ function onSave() {
         onSave={onSave}
       />
       </div>
-      
     </div>
   );
 }
