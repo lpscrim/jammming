@@ -3,7 +3,7 @@ const clientId = '87cfc90456484b70a7997e4351f62239';
 const redirectUri = 'http://localhost:3000';
 //const encRedirect_uri= encodeURIComponent(redirectUri);
 //const clientSecret = '7a948a4cc337480c944b750ace086b8e';
-const url = 'https://accounts.spotify.com/authorize?response_type=token&scope=playlist-read-private&client_id=' + clientId + '&redirect_uri=' + redirectUri;
+const url = 'https://accounts.spotify.com/authorize?response_type=token&scope=playlist-modify-public&client_id=' + clientId + '&redirect_uri=' + redirectUri;
 let accessToken;
 
 //make spotify object function?
@@ -74,6 +74,7 @@ async function savePlaylist(playlistName, saveList) {
 
     const jsonResponse = await response.json();
     let username = jsonResponse.id;
+    console.log(username)
     const responseNp = await fetch("https://api.spotify.com/v1/users/"+ username + "/playlists", {
         method: "POST",
         headers: { 
@@ -85,6 +86,7 @@ async function savePlaylist(playlistName, saveList) {
 
     const jsonResponseNp = await responseNp.json();
 
+    console.log(jsonResponseNp)
     const playlistId = jsonResponseNp.id;
 
     return await fetch("https://api.spotify.com/v1/users/" +  username + "/playlists/" + playlistId + "/tracks", {
