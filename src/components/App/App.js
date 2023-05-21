@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-//import './App.css';
+import './App.css';
+
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
@@ -48,26 +49,28 @@ function onSave() {
   return (
     
     <div className="App">
-      <header className="App-header">
+      <h1>
         JAMMMING
-      </header>
-      <div>
-      <SearchBar 
-        onSearchTerm={onSearchTerm} 
-        searchTerm={searchTerm} 
-        onSearch={onSearch} 
-      />
-      <SearchResults 
-        results={results}
-        onAdd={onAdd}  
-      />
-      <Playlist 
-        onNameChange={onNameChange} 
-        name={playlistName} 
-        tracks={playlistTracks}
-        onRemove={onRemove}
-        onSave={onSave}
-      />
+      </h1>
+      <div className="App-body">
+        <SearchBar 
+          onSearchTerm={onSearchTerm} 
+          searchTerm={searchTerm} 
+          onSearch={onSearch} 
+        />
+        <div className="App-list">
+          <SearchResults 
+            results={results}
+            onAdd={onAdd}  
+          />
+          <Playlist 
+            onNameChange={onNameChange} 
+            name={playlistName} 
+            tracks={playlistTracks}
+            onRemove={onRemove}
+            onSave={onSave}
+          />
+        </div>  
       </div>
     </div>
   );

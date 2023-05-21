@@ -1,0 +1,52 @@
+body,
+html,
+#root {
+  height: 100%;
+}
+
+html {
+  font-size: 18px;
+}
+
+h1 {
+    padding: .77rem 0;
+    background-color: #a59f98;
+    text-align: center;
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 1.88rem;
+    color: #fff;
+}
+
+h2 {
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 1.55rem;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-body {
+  height: 100%;
+  padding: 5% 17% 32% 17%;
+  background-image: url('./background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Inconsolata', sans-serif;
+  font-weight: 500;
+  color: #fff;
+}
+
+.App-list {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media only screen and (max-width: 1020px) {
+  .App-playlist {
+    align-items: center;
+    flex-direction: column;
+  }
+}
