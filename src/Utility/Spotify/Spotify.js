@@ -44,8 +44,8 @@ async function spotifySearch(term) {
 
     accessToken = getAccessToken();
     console.log('URL Access Token2:', accessToken);
-    //includ limit of 20 tracks and track type in search.
-    const response = await fetch("https://api.spotify.com/v1/search?type=track&limit=20&q=" + term, {
+    //includ limit of 10 tracks and track type in search.
+    const response = await fetch("https://api.spotify.com/v1/search?type=track&limit=10&q=" + term, {
         headers: { Authorization: "Bearer " + accessToken }
     });
 

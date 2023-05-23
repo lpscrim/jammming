@@ -1,5 +1,7 @@
 import Tracklist from '../Tracklist/Tracklist';
 
+import './Playlist.css';
+
 function Playlist(props) {
 
     function handleNameChange(event) {
