@@ -1,3 +1,5 @@
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 import './Track.css';
 
 function Track(props) {
@@ -24,6 +26,7 @@ function Track(props) {
                 <h3>{props.track.name}</h3>
                 <p> {props.track.artist} |  {props.track.album} </p>
             </div>
+            <AudioPlayer className="Player" src={props.track.preview} layout="horizontal" customAdditionalControls={[]} customVolumeControls={[]} showJumpControls={false} />
             {renderButton()}
         </div>
     );

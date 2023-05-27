@@ -17,26 +17,51 @@
   }
   
   
-  .Track-button:hover {
-    color: rgba(265, 265, 265, .5);
-  }
+.Track-button:hover {
+  color: rgba(265, 265, 265, .5);
+}
   
-  .Track-info {
-    flex-grow: 1;
-    flex-shrink: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: fit-content;
-    overflow-y: visible;
-  }
+.Track-info {
+  flex-grow: 1;
+  flex-shrink: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: fit-content;
+  overflow-y: visible;
+}
   
-  .Track-info h3 {
-    margin-bottom: .10rem;
-  }
+.Track-info h3 {
+  margin-bottom: .10rem;
+}
   
-  .Track-info p {
-    font-size: .83rem;
-    font-weight: 300;
-    color: rgba(256, 256, 256, 0.8);
-  }
+.Track-info p {
+  font-size: .83rem;
+  font-weight: 300;
+  color: rgba(256, 256, 256, 0.8);
+}
+
+.rhap_container {
+  width: fit-content;
+  padding: 0%;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+  box-shadow: none;
+}
+
+.rhap_main-controls {
+  width: fit-content;
+}
+
+.rhap_container svg{
+  color:white;
+}
+
+.rhap_time {
+  display:none;
+}
+
+.rhap_progress-section {
+  display:none;
+}
+
