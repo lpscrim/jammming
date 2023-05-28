@@ -5,8 +5,21 @@ const redirectUri = 'http://localhost:3000';
 //const clientSecret = '7a948a4cc337480c944b750ace086b8e';
 const url = 'https://accounts.spotify.com/authorize?response_type=token&scope=playlist-modify-public&client_id=' + clientId + '&redirect_uri=' + redirectUri;
 let accessToken;
+let username;
 
-//make spotify object function?
+async function getUsername() {
+  if (username) {    
+    return username
+  } else {
+    const response = await fetch("https://api.spotify.com/v1/me", {
+        headers: {Authorization: "Bearer " + accessToken}
+    });
+
+    const jsonResponse = await response.json();
+    let username = jsonResponse.id;
+    console.log(username)
+  }
+}
 function getAccessToken() {
 
     if(accessToken) {
@@ -69,13 +82,8 @@ async function spotifySearch(term) {
 async function savePlaylist(playlistName, saveList) {
 
     accessToken = getAccessToken();
-    const response = await fetch("https://api.spotify.com/v1/me", {
-        headers: {Authorization: "Bearer " + accessToken}
-    });
+    getUsername();
 
-    const jsonResponse = await response.json();
-    let username = jsonResponse.id;
-    console.log(username)
     const responseNp = await fetch("https://api.spotify.com/v1/users/"+ username + "/playlists", {
         method: "POST",
         headers: { 
