@@ -22,3 +22,5 @@ function PlaylistList(props){
         </div>
     )
 }
+
+export default PlaylistList;
