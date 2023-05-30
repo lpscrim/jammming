@@ -105,5 +105,23 @@ async function savePlaylist(playlistName, saveList) {
     })
 }
 
+async function getUserPlaylist() {
 
-export {spotifySearch, savePlaylist};
+    accessToken = getAccessToken();
+    getUsername();
+
+    const response = await fetch("https://api.spotify.com/v1/users/" + username +"/playlists", {
+        headers: { Authorization: "Bearer " + accessToken }
+    })
+
+    const jsonResponse = await response.json();
+
+    
+    return jsonResponse.items.map(playlist => ({
+        id: playlist.id,
+        name: playlist.name,
+        }));
+    
+}
+
+export {spotifySearch, savePlaylist, getUserPlaylist};

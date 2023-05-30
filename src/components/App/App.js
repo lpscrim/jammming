@@ -5,7 +5,7 @@ import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
-import { spotifySearch, savePlaylist } from '../../Utility/Spotify/Spotify';
+import { spotifySearch, savePlaylist, getUserPlaylist } from '../../Utility/Spotify/Spotify';
 
 function App() {
 
@@ -13,7 +13,11 @@ const [results, setResults] = useState([]);
 const [searchTerm, setSearchTerm] = useState('');
 const [playlistName, setPlaylistName] = useState('My Playlist');
 const [playlistTracks, setPlaylistTracks] = useState([]);
+const [playlists, setPlaylists] = useState([]);
 
+function onGetPlaylists(){
+  setPlaylists(getUserPlaylist)
+}
 
 function onSearchTerm(term){
   setSearchTerm(term);
@@ -70,6 +74,11 @@ function onSave() {
             tracks={playlistTracks}
             onRemove={onRemove}
             onSave={onSave}
+          />
+        </div>
+        <div className="Platlist-list">
+          <PlaylistList
+            playlists={playlists}
           />
         </div>  
       </div>
