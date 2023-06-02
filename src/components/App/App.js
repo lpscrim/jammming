@@ -5,7 +5,8 @@ import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
-import { spotifySearch, savePlaylist, getUserPlaylist } from '../../Utility/Spotify/Spotify';
+import PlaylistList from '../PlaylistList/PlaylistList';
+import { spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks } from '../../Utility/Spotify/Spotify';
 
 function App() {
 
@@ -15,8 +16,19 @@ const [playlistName, setPlaylistName] = useState('My Playlist');
 const [playlistTracks, setPlaylistTracks] = useState([]);
 const [playlists, setPlaylists] = useState([]);
 
-function onGetPlaylists(){
-  setPlaylists(getUserPlaylist)
+async function onSelectPlaylist(id, name) {
+  console.log(name)
+  console.log(id)
+  const tracks = await getPlaylistTracks(id)
+  console.log(tracks);
+  setPlaylistTracks(tracks);
+  setPlaylistName(name);
+}
+
+async function onGetPlaylists(){
+  const lists = await getUserPlaylists();
+  setPlaylists(lists);
+  console.log("playlists= " + playlists);
 }
 
 function onSearchTerm(term){
@@ -24,12 +36,11 @@ function onSearchTerm(term){
 }
 
 function onNameChange(name){
-  setPlaylistName(name)
+  setPlaylistName(name);
 }
 
 function onSearch(term) {
-  spotifySearch(term).then(setResults);
-  console.log(results);
+  spotifySearch(term).then(setResults);;
 }
 
 function onAdd(track) {
@@ -47,7 +58,6 @@ function onSave() {
   savePlaylist(playlistName, savedList);
   setResults([]);
   setPlaylistName('My Playlist');
-  console.log(savedList);
 }
 
 
@@ -79,6 +89,8 @@ function onSave() {
         <div className="Platlist-list">
           <PlaylistList
             playlists={playlists}
+            onGetPlaylists={onGetPlaylists}
+            onSelectPlaylist={onSelectPlaylist}
           />
         </div>  
       </div>
