@@ -17,7 +17,6 @@ async function getUsername() {
 
     const jsonResponse = await response.json();
     username = jsonResponse.id;
-    console.log("username= " + username);
   }
 }
 
@@ -52,7 +51,6 @@ function getAccessToken() {
 async function spotifySearch(term) {
 
     accessToken = getAccessToken();
-    console.log('URL Access Token2:', accessToken);
     //includ limit (&limit=...) and track type in search.
     const response = await fetch("https://api.spotify.com/v1/search?q=" + term + "&type=artist,track,album", {
         headers: { Authorization: "Bearer " + accessToken }
@@ -60,6 +58,7 @@ async function spotifySearch(term) {
 
     const jsonResponse = await response.json();
 
+    console.log("search obj return=", jsonResponse )
     if (!jsonResponse.tracks) {
         console.log('none returned')
         return [];
@@ -105,17 +104,13 @@ async function getUserPlaylists() {
     accessToken = getAccessToken();
     await getUsername();
 
-    console.log("Username2= " + username);
 
     const response = await fetch("https://api.spotify.com/v1/users/" + username +"/playlists", {
         headers: { Authorization: "Bearer " + accessToken }
     });
 
-    console.log("Username2= " + username);
 
     const jsonResponse = await response.json();
-
-    console.log(jsonResponse);
 
     return jsonResponse.items.map(playlist => ({
         id: playlist.id,
@@ -129,21 +124,25 @@ async function getPlaylistTracks(playlistId) {
     accessToken = getAccessToken();
     await getUsername();
 
+    console.log ("token= " + accessToken)
+    console.log("Username= " + username)
+    console.log("Id= " + playlistId)
+
     const response = await fetch("https://api.spotify.com/v1/users/" + username + "/playlists/" + playlistId + "/tracks", {
         headers: { Authorization: "Bearer " + accessToken }
     })
 
     const jsonResponse = await response.json();
 
-    console.log(jsonResponse)
+    console.log("response= ", jsonResponse)
 
-    return jsonResponse.items.map(track => ({
-        id: track.id,
-        name: track.name,
-        artist: track.artists[0].name,
-        album: track.album.name,
-        uri: track.uri,
-        preview: track.preview_url
+    return jsonResponse.items.map(song => ({
+        id: song.track.id,
+        name: song.track.name,
+        artist: song.track.artists[0].name,
+        album: song.track.album.name,
+        uri: song.track.uri,
+        preview: song.track.preview_url
     }));
 };
 

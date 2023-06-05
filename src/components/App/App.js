@@ -17,10 +17,8 @@ const [playlistTracks, setPlaylistTracks] = useState([]);
 const [playlists, setPlaylists] = useState([]);
 
 async function onSelectPlaylist(id, name) {
-  console.log(name)
-  console.log(id)
   const tracks = await getPlaylistTracks(id)
-  console.log(tracks);
+  console.log("tracks= ", tracks);
   setPlaylistTracks(tracks);
   setPlaylistName(name);
 }
@@ -28,7 +26,6 @@ async function onSelectPlaylist(id, name) {
 async function onGetPlaylists(){
   const lists = await getUserPlaylists();
   setPlaylists(lists);
-  console.log("playlists= " + playlists);
 }
 
 function onSearchTerm(term){
