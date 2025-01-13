@@ -1,4 +1,4 @@
-const clientId = '87cfc90456484b70a7997e4351f62239';
+const clientId = 'b2a1a189a8954b718cf7bcd6e4d4faed';
 const redirectUri = 'http://localhost:3000';
 const scopes = [
     'playlist-modify-private',
@@ -62,7 +62,6 @@ function getAccessToken() {
     }
 }
 
-
 async function waitForAccessToken() {
     while (!accessToken) {
         accessToken = getAccessToken();
@@ -94,6 +93,9 @@ async function getUserPlaylists() {
         });
 
         if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('Access forbidden: Check your scopes and permissions.');
+            }
             throw new Error('Failed to fetch user playlists');
         }
 
