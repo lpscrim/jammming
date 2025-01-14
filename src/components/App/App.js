@@ -62,7 +62,7 @@ function onSave() {
     
     <div className="App">
       <h1>
-        JAMMMING
+        SPOTIFY PLAYLIST STEALER 
       </h1>
       <div className="App-body">
         <SearchBar 
