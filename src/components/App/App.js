@@ -59,6 +59,10 @@ function onSave() {
   setPlaylistName('My Playlist');
 }
 
+function removeAllTracks() {
+  setPlaylistTracks([]);
+}
+
 
   return (
     
@@ -83,6 +87,7 @@ function onSave() {
             tracks={playlistTracks}
             onRemove={onRemove}
             onSave={onSave}
+            removeAllTracks={removeAllTracks}
           />
         </div>
         <div className="Platlist-list">
