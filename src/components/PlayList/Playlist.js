@@ -12,10 +12,9 @@ function Playlist(props) {
         <div className="Playlist">
         <div className='Playlist-information'>
             <input defaultValue={props.name} onChange={handleNameChange} />
-            <button className="clear" onClick={props.onClear}>
+            <button className="clear" onClick={props.removeAllTracks}>
                 CLEAR
             </button>
-            {props.tracks.length}
         </div>
             <div className="Playlist-tracks">
                 <Tracklist 

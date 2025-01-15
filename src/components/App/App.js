@@ -84,41 +84,53 @@ function App() {
 
   return (
     <div className="App">
-      <h1>SPOTIFY PLAYLIST STEALER</h1>
-      <div className="App-body">
-        <div className="App-list">
-          <SearchResults
-            results={results}
-            onAdd={onAdd}
-            onSearchTerm={onSearchTerm}
-            searchTerm={searchTerm}
-            onSearch={onSearch}
-          />
-          <Playlist
-            onNameChange={onNameChange}
-            name={playlistName}
-            tracks={playlistTracks}
-            onRemove={onRemove}
-            onSave={onSave}
-            removeAllTracks={removeAllTracks}
-          />
+      <div className="Main">
+        <h1>SPOTIFY PLAYLIST STEALER</h1>
+        <div className="App-body">
+          <div className="App-list">
+            <SearchResults
+              results={results}
+              onAdd={onAdd}
+              onSearchTerm={onSearchTerm}
+              searchTerm={searchTerm}
+              onSearch={onSearch}
+            />
+            <Playlist
+              onNameChange={onNameChange}
+              name={playlistName}
+              tracks={playlistTracks}
+              onRemove={onRemove}
+              onSave={onSave}
+              removeAllTracks={removeAllTracks}
+            />
+          </div>
+          <div className="Bottom">
+            <PlaylistList
+              playlists={UserPlaylists}
+              onGetPlaylists={onGetPlaylists}
+              onSelectPlaylist={onSelectPlaylist}
+              username={username}
+            />
+            <OthersList
+              playlists={otherPlaylists}
+              onGetPlaylists={onGetOtherPlaylists}
+              onSelectPlaylist={onSelectPlaylist}
+              username={otherUser}
+              onNameChange={otherNameChange}
+              name={otherUser}
+            />
+          </div>
         </div>
-        <div className="Bottom">
-          <PlaylistList
-            playlists={UserPlaylists}
-            onGetPlaylists={onGetPlaylists}
-            onSelectPlaylist={onSelectPlaylist}
-            username={username}
-          />
-          <OthersList
-            playlists={otherPlaylists}
-            onGetPlaylists={onGetOtherPlaylists}
-            onSelectPlaylist={onSelectPlaylist}
-            username={otherUser}
-            onNameChange={otherNameChange}
-            name={otherUser}
-          />
-        </div>
+        <iframe
+          title="Spotify Player"
+          src="https://open.spotify.com/embed/playlist/24sgmPIJ2sj1eXYUhtnktQ?utm_source=generator&theme=0"
+          width="100%"
+          height="100"
+          frameBorder="0"
+          allowfullscreen=""
+          allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
       </div>
     </div>
   );
