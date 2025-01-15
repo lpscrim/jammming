@@ -45,6 +45,12 @@ h2 {
   width: 100%;
 }
 
+.Bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
 @media only screen and (max-width: 1020px) {
   .App-playlist {
     align-items: center;

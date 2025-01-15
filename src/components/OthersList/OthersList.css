@@ -1,0 +1,29 @@
+.OthersList {
+    border-radius: 5px;
+    width: 55%;
+    height: 650px;
+    padding: 1rem 1rem;
+    overflow-y: scroll;
+    background-color: rgba(1, 12, 63, 0.7);
+    box-shadow: 0 4px 2px 2px #000000;
+    margin-top: 2rem;
+  }
+  
+  .title {
+    border-bottom: 1px solid #ff8800;
+    padding-bottom: 5px;
+    width: 100%
+  }
+  
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  
+  @media only screen and (max-width: 1020px) {
+    .SearchResults {
+      width: 90%;
+      /*margin-bottom: 2rem;*/
+    }
+  }
+  
