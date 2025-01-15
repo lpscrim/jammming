@@ -13,7 +13,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 0;
   }
 
   .Playlist-tracks {
@@ -24,7 +23,7 @@
     width: 65%;
     border: 0;
     outline: 0;
-    padding: 5px;
+    padding: 15px;
     background: transparent;
     border-bottom: 1px solid #ff8800;
     font-family: 'Source Code Pro', sans-serif;
@@ -36,14 +35,14 @@
   .Playlist-save {
     cursor: pointer;
     align-self: center;
-    width: 10rem;
-    padding: .77rem 0;
+    width: 12rem;
+    padding: .5rem 0.5rem;
     border-radius: 54px;
     border-width: 0px;
-    margin-top: 1.27rem;
-    background-color: #ff8800;
+    margin: 3rem 0;
+    background-color: rgba(1, 12, 63, 0.7);
     text-align: center;
-    font-size: .83rem;
+    font-size: 1rem;
     font-weight: 1000;
     font-family: 'Source Code Pro', sans-serif;
     transition: background-color .25s;
@@ -68,7 +67,7 @@
   }
   
   .Playlist-save:hover {
-    background-color: rgba(1, 12, 63, 0.7);
+    background-color: #ff8800;
   }
   
   ::-webkit-scrollbar {
