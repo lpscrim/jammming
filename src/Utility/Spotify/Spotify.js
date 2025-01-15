@@ -4,7 +4,7 @@ const scopes = [
     'playlist-modify-private',
     'playlist-read-private',
     'user-read-email',
-    'user-read-private'
+    'user-read-private',
 ];
 const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${encodeURIComponent(scopes.join(' '))}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 let accessToken;
@@ -186,4 +186,4 @@ async function getPlaylistTracks(playlistId) {
     }));
 }
 
-export { spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };
+export { getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };

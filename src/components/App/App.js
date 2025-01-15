@@ -6,15 +6,16 @@ import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import PlaylistList from '../PlaylistList/PlaylistList';
-import { spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks } from '../../Utility/Spotify/Spotify';
+import { getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks } from '../../Utility/Spotify/Spotify';
 
 function App() {
 
 const [results, setResults] = useState([]);
 const [searchTerm, setSearchTerm] = useState('');
-const [playlistName, setPlaylistName] = useState('My Playlist');
+const [playlistName, setPlaylistName] = useState('New Playlist');
 const [playlistTracks, setPlaylistTracks] = useState([]);
 const [playlists, setPlaylists] = useState([]);
+const [username, setUsername] = useState('User');
 
 async function onSelectPlaylist(id, name) {
   const tracks = await getPlaylistTracks(id)
@@ -25,6 +26,7 @@ async function onSelectPlaylist(id, name) {
 
 async function onGetPlaylists(){
   const lists = await getUserPlaylists();
+  setUsername(await getUsername()) ;
   setPlaylists(lists);
 }
 
@@ -88,6 +90,7 @@ function onSave() {
             playlists={playlists}
             onGetPlaylists={onGetPlaylists}
             onSelectPlaylist={onSelectPlaylist}
+            username={username}
           />
         </div>  
       </div>

@@ -1,5 +1,5 @@
 import PlaylistListItem from "../PlaylistListItem/PlaylistListItem";
-
+import "./PlaylistList.css";
 function PlaylistList(props){
 
     function handleGetPlaylists() {
@@ -9,7 +9,7 @@ function PlaylistList(props){
     return (
         <div className="Playlist-list">
             <div className="Head">
-                <h2>User Playlists</h2>
+                <h2>{props.username}'s playlists</h2>
             </div>
             <div className="List">
                 {props.playlists.map((playlist) => {
@@ -21,12 +21,12 @@ function PlaylistList(props){
                             onSelectPlaylist={props.onSelectPlaylist}
                         />
                     );
-                })};       
+                })}       
             </div>
             <button 
                 className="Get-playlists" 
                 onClick={handleGetPlaylists}>
-                Get User Playlists
+                Get {props.username}'s playlists
             </button>
         </div>
     )

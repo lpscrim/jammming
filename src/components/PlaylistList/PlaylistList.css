@@ -1,0 +1,43 @@
+.Head {
+  display: flex;
+  align-items: center;
+  width: 35%;
+  background-color: #4e96b3;
+  box-shadow: 0 4px 2px 2px #000000;
+  margin-top: 2rem;
+}
+.List {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  width: 35%;
+  max-height: 650px;
+  background-color: #4e96b3;
+  box-shadow: 0 4px 2px 2px #000000;
+}
+.Head h2 {
+  margin: 2 auto;
+  text-align: center;
+  flex: 1;
+}
+
+.Get-playlists {
+  cursor: pointer;
+  width: 14rem;
+  padding: .5rem 0.5rem;
+  margin: 3rem 0;
+  border-radius: 54px;
+  background-color: #4e96b3;
+  text-align: center;
+  font-size: 1rem;
+  transition: background-color .25s;
+  border: 0px;
+  font-family: 'Source Code Pro';
+  color: #fff;
+  font-weight: 600;
+}
+
+.Get-playlists:hover {
+  background-color:  rgba(18, 79, 129, 0.7);
+}

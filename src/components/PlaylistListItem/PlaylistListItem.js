@@ -1,3 +1,4 @@
+import "./PlaylistListItem.css";
 function PlaylistListItem(props){
     
     function handleSelectPlaylist() {
