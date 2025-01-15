@@ -9,7 +9,7 @@ function PlaylistList(props){
     return (
         <div className="Playlist-list">
             <div className="List">
-            <h2>{props.username}'s playlists</h2>
+            <h2 className="title">{props.username}'s playlists</h2>
                 {props.playlists.map((playlist) => {
                     return (
                         <PlaylistListItem 

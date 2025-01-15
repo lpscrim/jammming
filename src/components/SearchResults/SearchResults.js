@@ -5,7 +5,7 @@ function SearchResults(props) {
 
     return (
         <div className="SearchResults">
-            <h2>Results</h2>
+            <h2 className='title'>Results</h2>
             <div className="tracks">
                 <Tracklist 
                     tracks={props.results}

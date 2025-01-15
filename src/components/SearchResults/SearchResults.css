@@ -2,13 +2,16 @@
   border-radius: 5px;
   width: 55%;
   height: 650px;
+  padding: 1rem 1rem;
   overflow-y: scroll;
   background-color: rgba(1, 12, 63, 0.7);
   box-shadow: 0 4px 2px 2px #000000;
 }
-h2 {
-  font-family: "Source Code Pro", sans-serif;
-  color: #fff;
+
+.title {
+  border-bottom: 1px solid #ff8800;
+  padding-bottom: 5px;
+  width: 100%
 }
 
 ::-webkit-scrollbar {
