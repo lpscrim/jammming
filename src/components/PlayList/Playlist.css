@@ -6,7 +6,7 @@
     width: 45%;
     max-height: 650px;
     padding: 1rem 1rem;
-    background-color: #4e96b3;
+    background-color: rgba(1, 12, 63, 0.8);
     box-shadow: 0 4px 2px 2px #000000;
   }
   .Playlist-information {
@@ -40,7 +40,7 @@
     border-radius: 54px;
     border-width: 0px;
     margin: 3rem 0;
-    background-color: rgba(1, 12, 63, 0.7);
+    background-color: #4e96b3;
     text-align: center;
     font-size: 1rem;
     font-weight: 1000;
@@ -57,7 +57,7 @@
     width: 4rem;
     height: 2.5rem;
     border-radius: 50%;
-    background-color: rgba(1, 12, 63, 0.7);
+    background-color: #4e96b3;
     cursor: pointer;
     transition: background-color .25s;
   }

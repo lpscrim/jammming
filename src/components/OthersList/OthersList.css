@@ -7,14 +7,14 @@
     align-items: center;
     padding: 1rem 1rem;
     overflow-y: scroll;
-    background-color: rgba(1, 12, 63, 0.7);
+    background-color: rgba(1, 12, 63, 0.8);
     box-shadow: 0 4px 2px 2px #000000;
     
   }
   
   .OthersList input {
     border-bottom: 1px solid #ff8800;
-    width: 75%;
+    width: 100%;
     border: 0;
     outline: 0;
     padding: 15px;
@@ -24,6 +24,7 @@
     font-size: 1.55rem;
     font-weight: 500;
     color: #fff;
+    text-align: start;
   }
   
   ::-webkit-scrollbar {
