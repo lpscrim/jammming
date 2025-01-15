@@ -27,11 +27,3 @@
     width: 0px;
     background: transparent;
   }
-  
-  @media only screen and (max-width: 1020px) {
-    .SearchResults {
-      width: 90%;
-      /*margin-bottom: 2rem;*/
-    }
-  }
-  

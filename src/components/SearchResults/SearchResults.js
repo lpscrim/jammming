@@ -1,20 +1,20 @@
-import Tracklist from '../Tracklist/Tracklist';
-import './SearchResults.css';
+import SearchBar from "../SearchBar/SearchBar";
+import Tracklist from "../Tracklist/Tracklist";
+import "./SearchResults.css";
 
 function SearchResults(props) {
-
-    return (
-        <div className="SearchResults">
-            <h2 className='title'>Results</h2>
-            <div className="tracks">
-                <Tracklist 
-                    tracks={props.results}
-                    onAdd={props.onAdd} 
-                />
-            </div>
-
-        </div>
-    );
+  return (
+    <div className="SearchResults">
+      <SearchBar
+        onSearchTerm={props.onSearchTerm}
+        searchTerm={props.searchTerm}
+        onSearch={props.onSearch}
+      />
+      <div className="tracks">
+        <Tracklist tracks={props.results} onAdd={props.onAdd} />
+      </div>
+    </div>
+  );
 }
 
-export default SearchResults; 
+export default SearchResults;

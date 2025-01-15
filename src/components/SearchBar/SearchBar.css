@@ -1,41 +1,59 @@
 .SearchBar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 4rem;
-  }
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
 
-  .SearchBar input {
-    width: 280px;
-    padding: 1rem 0;
-    border: 1px solid #fff;
-    border-radius: 3px;
-    margin-bottom: 2rem;
-    color: #a59f98;
-    text-align: center;
-    font-family: 'Inconsolata', sans-serif;
-    font-size: 1rem;
-  }
-  
-  .SearchBar input:focus {
-    outline: none;
-  }
-  
-  .SearchButton {
-    cursor: pointer;
-    width: 8.11rem;
-    padding: .77rem 0;
-    border-radius: 54px;
-    background-color: #4e96b3;
-    text-align: center;
-    font-size: .833rem;
-    transition: background-color .25s;
-    border: 0px;
-    font-family: 'Source Code Pro';
-    color: #fff;
-    font-weight: 600;
-  }
-  
-  .SearchButton:hover {
-    background-color: rgba(18, 79, 129, 0.7);
-  }
+.SearchBar input {
+  border-bottom: 1px solid #ff8800;
+  padding-bottom: 5px;
+  width: 75%;
+  border: 0;
+  outline: 0;
+  padding: 15px;
+  background: transparent;
+  border-bottom: 1px solid #ff8800;
+  font-family: "Source Code Pro", sans-serif;
+  font-size: 1.55rem;
+  color: #fff;
+}
+
+.SearchBar input:focus {
+  outline: none;
+  background: transparent;
+}
+
+.SearchBar input::placeholder {
+  color: #fff; /* Style the placeholder text */
+  opacity: 0.5; /* Adjust the opacity if needed */
+}
+
+.SearchBar input:-webkit-autofill,
+.SearchBar input:-webkit-autofill:hover,
+.SearchBar input:-webkit-autofill:focus,
+.SearchBar input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: #fff !important;
+  background: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.SearchButton {
+  cursor: pointer;
+  width: 8.11rem;
+  padding: 0.77rem 0;
+  border-radius: 54px;
+  background-color: #4e96b3;
+  text-align: center;
+  font-size: 0.833rem;
+  transition: background-color 0.25s;
+  border: 0px;
+  font-family: "Source Code Pro";
+  color: #fff;
+  font-weight: 600;
+}
+
+.SearchButton:hover {
+  background-color: rgba(18, 79, 129, 0.7);
+}

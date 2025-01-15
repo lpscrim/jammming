@@ -2,7 +2,7 @@ import './SearchBar.css';
 
 function SearchBar(props) {
     
-    const placeholder = props.searchTerm ? props.searchTerm : "Enter A Song, Album, or Artist";
+    const placeholder = props.searchTerm ? props.searchTerm : "Search: Song, Album, or Artist";
 
     function termChangeHandler(e) {
         const newSearchTerm = e.target.value;

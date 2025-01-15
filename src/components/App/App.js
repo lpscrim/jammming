@@ -11,7 +11,7 @@ import {
   savePlaylist,
   getUserPlaylists,
   getPlaylistTracks,
-  getOtherPlaylists
+  getOtherPlaylists,
 } from "../../Utility/Spotify/Spotify";
 import OthersList from "../OthersList/OthersList";
 
@@ -88,13 +88,14 @@ function App() {
     <div className="App">
       <h1>SPOTIFY PLAYLIST STEALER</h1>
       <div className="App-body">
-        <SearchBar
-          onSearchTerm={onSearchTerm}
-          searchTerm={searchTerm}
-          onSearch={onSearch}
-        />
         <div className="App-list">
-          <SearchResults results={results} onAdd={onAdd} />
+          <SearchResults
+            results={results}
+            onAdd={onAdd}
+            onSearchTerm={onSearchTerm}
+            searchTerm={searchTerm}
+            onSearch={onSearch}
+          />
           <Playlist
             onNameChange={onNameChange}
             name={playlistName}
@@ -111,10 +112,10 @@ function App() {
             onSelectPlaylist={onSelectPlaylist}
             username={username}
           />
-          <OthersList 
-            playlists={otherPlaylists} 
-            onGetPlaylists={onGetOtherPlaylists} 
-            onSelectPlaylist={onSelectPlaylist} 
+          <OthersList
+            playlists={otherPlaylists}
+            onGetPlaylists={onGetOtherPlaylists}
+            onSelectPlaylist={onSelectPlaylist}
             username={otherUser}
             onNameChange={otherNameChange}
             name={otherUser}
