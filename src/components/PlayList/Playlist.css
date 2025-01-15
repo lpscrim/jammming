@@ -1,9 +1,9 @@
 .Playlist {
-    border-radius: 5px;;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    width: 35%;
+    width: 45%;
     max-height: 650px;
     padding: 1rem 1rem;
     background-color: #4e96b3;
@@ -21,7 +21,7 @@
   }
   
   .Playlist input {
-    width: 75%;
+    width: 65%;
     border: 0;
     outline: 0;
     padding: 5px;
@@ -57,7 +57,7 @@
     align-items: center;
     width: 4rem;
     height: 2.5rem;
-    border-radius: 20%;
+    border-radius: 50%;
     background-color: rgba(1, 12, 63, 0.7);
     cursor: pointer;
     transition: background-color .25s;
@@ -76,8 +76,3 @@
       background: transparent;
   }
   
-  @media only screen and (max-width: 1020px) {
-    .Playlist {
-      width: 90%;
-    }
-  }

@@ -7,7 +7,7 @@ function PlaylistListItem(props){
 
     return (
         <div className="Playlist-list-item" onClick={handleSelectPlaylist}>
-            <h2>{props.name}</h2>
+            <p>{props.name}</p>
         </div>
     )
 }

@@ -1,11 +1,10 @@
 .Playlist-list {
   border-radius: 5px;
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
-  width: 35%;
+  width: 40%;
   height: 650px;
   background-color: #4e96b3;
   box-shadow: 0 4px 2px 2px #000000;
@@ -15,8 +14,9 @@
 .title {
   text-transform: capitalize;
   border-bottom: 1px solid #ff8800;
-  padding-bottom: 5px;
-  width: 100%
+  font-weight: 500;
+  padding: 15px;
+  width: 100%;
 }
 
 .Get-playlists {
