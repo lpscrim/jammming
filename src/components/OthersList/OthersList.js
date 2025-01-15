@@ -1,14 +1,18 @@
 import PlaylistListItem from "../PlaylistListItem/PlaylistListItem";
 import "./OthersList.css";
 export default function OthersList(props) {
+  
+  function handleNameChange(event) {
+    props.onNameChange(event.target.value);
+  }
   function handleGetPlaylists() {
-    props.onGetPlaylists();
+    props.onGetPlaylists(props.name);
   }
 
   return (
     <div className="OthersList">
       <div className="List">
-        <h2 className="title">{props.username}'s playlists</h2>
+        <input defaultValue={props.name} onChange={handleNameChange} />
         {props.playlists.map((playlist) => {
           return (
             <PlaylistListItem

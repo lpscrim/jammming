@@ -9,10 +9,18 @@
     margin-top: 2rem;
   }
   
-  .title {
+  .OthersList input {
     border-bottom: 1px solid #ff8800;
     padding-bottom: 5px;
-    width: 100%
+    width: 75%;
+    border: 0;
+    outline: 0;
+    padding: 15px;
+    background: transparent;
+    border-bottom: 1px solid #ff8800;
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 1.55rem;
+    color: #fff;
   }
   
   ::-webkit-scrollbar {

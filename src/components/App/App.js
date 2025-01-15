@@ -11,6 +11,7 @@ import {
   savePlaylist,
   getUserPlaylists,
   getPlaylistTracks,
+  getOtherPlaylists
 } from "../../Utility/Spotify/Spotify";
 import OthersList from "../OthersList/OthersList";
 
@@ -38,7 +39,7 @@ function App() {
   }
 
   async function onGetOtherPlaylists() {
-    const lists = await getUserPlaylists();
+    const lists = await getOtherPlaylists(otherUser);
     setOtherPlaylists(lists);
   }
 
@@ -48,6 +49,10 @@ function App() {
 
   function onNameChange(name) {
     setPlaylistName(name);
+  }
+
+  function otherNameChange(name) {
+    setOtherUser(name);
   }
 
   function onSearch(term) {
@@ -111,6 +116,8 @@ function App() {
             onGetPlaylists={onGetOtherPlaylists} 
             onSelectPlaylist={onSelectPlaylist} 
             username={otherUser}
+            onNameChange={otherNameChange}
+            name={otherUser}
           />
         </div>
       </div>

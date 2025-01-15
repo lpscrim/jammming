@@ -112,6 +112,48 @@ async function getUserPlaylists() {
     }
 }
 
+async function getOtherPlaylists(otherUser) {
+    await waitForAccessToken();
+    console.log("Access Token:", accessToken);
+
+    if (!accessToken) {
+        console.error("Access token is undefined.");
+        return [];
+    }
+
+    console.log("Other Username:", otherUser);
+
+    if (!otherUser) {
+        console.error("Other Username is undefined.");
+        return [];
+    }
+
+    try {
+        const response = await fetch(`https://api.spotify.com/v1/users/${otherUser}/playlists`, {
+            headers: { Authorization: "Bearer " + accessToken }
+        });
+
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('Access forbidden: Check your scopes and permissions.');
+            }
+            throw new Error('Failed to fetch Other user playlists');
+        }
+
+        const jsonResponse = await response.json();
+        console.log("Other User Playlists Response:", jsonResponse);
+
+        return jsonResponse.items.map(playlist => ({
+            id: playlist.id,
+            name: playlist.name,
+        }));
+    } catch (error) {
+        console.error("Error fetching Other User playlists:", error);
+        return [];
+    }
+}
+
+
 async function spotifySearch(term) {
     accessToken = getAccessToken();
     console.log("Access Token for search:", accessToken);
@@ -186,4 +228,4 @@ async function getPlaylistTracks(playlistId) {
     }));
 }
 
-export { getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };
+export { getOtherPlaylists, getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };
