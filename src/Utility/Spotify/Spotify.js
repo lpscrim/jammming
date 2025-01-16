@@ -92,8 +92,11 @@ async function getUserPlaylists() {
             headers: { Authorization: "Bearer " + accessToken }
         });
 
+        
         if (!response.ok) {
             if (response.status === 403) {
+                accessToken = '';
+                window.location = url;
                 throw new Error('Access forbidden: Check your scopes and permissions.');
             }
             throw new Error('Failed to fetch user playlists');
@@ -231,7 +234,25 @@ async function getPlaylistTracks(playlistId) {
 async function logout() {
     accessToken = '';
     username = '';
-    window.location = 'http://localhost:3000';
+    
+    const url = 'https://www.spotify.com/logout/';
+    const spotifyLogoutWindow = window.open(url, 'Spotify Logout', 'width=700,height=500,top=40,left=40');
+    
+    if (spotifyLogoutWindow) {
+        const timer = setInterval(() => {
+            if (spotifyLogoutWindow.closed) {
+                clearInterval(timer);
+                window.location = 'http://localhost:3000';
+            }
+        }, 1000);
+        
+        setTimeout(() => {
+            spotifyLogoutWindow.close();
+            window.location = 'http://localhost:3000';
+        }, 2000);
+    } else {
+        window.location = 'http://localhost:3000';
+    }
 }
 
 export { getAccessToken, logout, getOtherPlaylists, getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };
