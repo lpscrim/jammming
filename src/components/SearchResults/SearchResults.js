@@ -1,5 +1,5 @@
 import SearchBar from "../SearchBar/SearchBar";
-import Tracklist from "../Tracklistz/Tracklist";
+import Tracklist from "../Tracklist/Tracklist";
 import "./SearchResults.css";
 
 function SearchResults(props) {

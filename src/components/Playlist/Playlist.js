@@ -1,4 +1,4 @@
-import Tracklist from '../Tracklistz/Tracklist';
+import Tracklist from '../Tracklist/Tracklist';
 
 import './Playlist.css';
 
