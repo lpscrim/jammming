@@ -20,6 +20,7 @@ h1 {
     font-family: 'Source Code Pro', sans-serif;
     font-size: 1.88rem;
     color: #fff;
+    margin-block-start: 0.2rem;
 }
 
 h2 {
@@ -43,7 +44,7 @@ h2 {
   justify-content: space-evenly;
   height: 80vh;
   width: 100%;
-  margin-top: 3%;
+  margin-top: 2%;
 }
 
 .App-list {
