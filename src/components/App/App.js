@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
 import PlaylistList from "../PlaylistList/PlaylistList";
 import {
+  logout,
   getUsername,
   spotifySearch,
   savePlaylist,
   getUserPlaylists,
   getPlaylistTracks,
   getOtherPlaylists,
+  getAccessToken
 } from "../../Utility/Spotify/Spotify";
 import OthersList from "../OthersList/OthersList";
 
@@ -22,6 +24,11 @@ function App() {
   const [otherPlaylists, setOtherPlaylists] = useState([]);
   const [username, setUsername] = useState("User");
   const [otherUser, setOtherUser] = useState("Random");
+
+  useEffect(() => {
+    // Retrieve the access token when the component mounts
+    getAccessToken();
+  }, []);
 
   async function onSelectPlaylist(id, name) {
     const tracks = await getPlaylistTracks(id);
@@ -82,6 +89,10 @@ function App() {
     setPlaylistTracks([]);
   }
 
+  function onLogout() {
+    logout();
+  }
+
   return (
     <div className="App">
       <div className="Main">
@@ -122,7 +133,7 @@ function App() {
           </div>
         </div>
         <div className="logout">
-          <button>Logout</button>
+          <button onClick={onLogout}>Logout</button>
         </div>
         <div className="Player">
           <iframe

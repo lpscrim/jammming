@@ -228,4 +228,10 @@ async function getPlaylistTracks(playlistId) {
     }));
 }
 
-export { getOtherPlaylists, getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };
+async function logout() {
+    accessToken = '';
+    username = '';
+    window.location = 'http://localhost:3000';
+}
+
+export { getAccessToken, logout, getOtherPlaylists, getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };
