@@ -121,16 +121,21 @@ function App() {
             />
           </div>
         </div>
-        <iframe
-          title="Spotify Player"
-          src="https://open.spotify.com/embed/playlist/24sgmPIJ2sj1eXYUhtnktQ?utm_source=generator&theme=0"
-          width="100%"
-          height="100"
-          frameBorder="0"
-          allowfullscreen=""
-          allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-        ></iframe>
+        <div className="logout">
+          <button>Logout</button>
+        </div>
+        <div className="Player">
+          <iframe
+            title="Spotify Player"
+            src="https://open.spotify.com/embed/playlist/24sgmPIJ2sj1eXYUhtnktQ?utm_source=generator&theme=0"
+            width="100%"
+            height="100"
+            frameBorder="0"
+            allowfullscreen=""
+            allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          ></iframe>
+        </div>
       </div>
     </div>
   );

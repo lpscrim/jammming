@@ -30,10 +30,6 @@ h2 {
     margin-block-start: 0;
 }
 
-.App {
-  
-}
-
 .Main {
   text-align: center;
   font-family: 'Source Code Pro', sans-serif;
@@ -45,7 +41,7 @@ h2 {
 .App-body {
   display: flex;
   justify-content: space-evenly;
-  height: 90vh;
+  height: 80vh;
   width: 100%;
   margin-top: 3%;
 }
@@ -62,4 +58,28 @@ h2 {
   width: 50%;
 }
 
+.logout button{
+  cursor: pointer;
+  width: 8.11rem;
+  padding: 0.77rem 0;
+  border-radius: 54px;
+  background-color: #4e96b3;
+  text-align: center;
+  font-size: 0.833rem;
+  transition: background-color 0.25s;
+  border: 0px;
+  font-family: "Source Code Pro";
+  color: #fff;
+  font-weight: 600;
+ 
+}
+
+.logout button:hover {
+  background-color: rgba(18, 79, 129, 0.7);
+}
+
+
+.Player {
+  padding-top: 3rem; 
+}
 
