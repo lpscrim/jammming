@@ -39,3 +39,11 @@
 .Get-playlists:hover {
   background-color:  rgba(18, 79, 129, 0.7);
 }
+
+@media (max-width: 1190px) {
+  .Playlist-list {
+    margin-top: 1rem;
+    width: 80%;
+
+  }
+}

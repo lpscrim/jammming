@@ -10,7 +10,7 @@ export default function OthersList(props) {
   }
 
   return (
-    <div className="OthersList">
+    <div className="Others-list">
       <div className="List">
         <input defaultValue={props.name} onChange={handleNameChange} />
         {props.playlists.map((playlist) => {

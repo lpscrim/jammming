@@ -1,7 +1,7 @@
-body,
-html,
-#root {
-  height: 108%;
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background-color: rgba(1, 12, 63, 0.7);
   background-image: url('./background.jpg');
   background-size: cover;
@@ -36,13 +36,14 @@ h2 {
   font-family: 'Source Code Pro', sans-serif;
   font-weight: 500;
   color: #fff;
-
+  flex: 1;
 }
 
 .App-body {
   display: flex;
+  flex: 1;
   justify-content: space-evenly;
-  height: 80vh;
+  min-height: 80vh;
   width: 100%;
   margin-top: 2%;
 }
@@ -84,3 +85,33 @@ h2 {
   padding-top: 3rem; 
 }
 
+@media (max-width: 1190px) {
+  .App-body {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .App-list,
+  .Bottom {
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logout {
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+    order: 2; 
+  }
+
+  .Player {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+    order: 1; 
+  }
+}
