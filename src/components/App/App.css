@@ -19,7 +19,7 @@ html {
 
 h1 {
     padding: .77rem 0;
-    background-color: rgba(1, 12, 63, 1);
+    background-color: rgba(1, 12, 63, 0.85);
     text-align: center;
     font-family: 'Source Code Pro', sans-serif;
     font-size: 1.88rem;
