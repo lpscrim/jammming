@@ -29,7 +29,7 @@ export default function Matrix() {
       ctx.fillRect(0, 0, w, h);
       ctx.fillStyle = state.color;
 
-      ctx.font = state.size + "px monospace";
+      ctx.font = state.size + "Source Code Pro, sans-serif";
       for (let i = 0; i < p.length; i++) {
         let v = p[i];
         ctx.fillText(random(state.charset), i * state.size, v);
