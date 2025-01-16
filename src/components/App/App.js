@@ -3,6 +3,7 @@ import "./App.css";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
 import PlaylistList from "../PlaylistList/PlaylistList";
+import Matrix from "../Matrix.js/Matrix";
 import {
   logout,
   getUsername,
@@ -95,6 +96,7 @@ function App() {
 
   return (
     <div className="App">
+      <Matrix />
       <div className="Main">
         <h1>SPOTIFY PLAYLIST STEALER</h1>
         <div className="App-body">
