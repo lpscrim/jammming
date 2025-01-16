@@ -23,7 +23,7 @@ function App() {
   const [UserPlaylists, setUserPlaylists] = useState([]);
   const [otherPlaylists, setOtherPlaylists] = useState([]);
   const [username, setUsername] = useState("User");
-  const [otherUser, setOtherUser] = useState("Random");
+  const [otherUser, setOtherUser] = useState("Target User");
 
   useEffect(() => {
     // Retrieve the access token when the component mounts
