@@ -2,6 +2,7 @@ const clientId = 'b2a1a189a8954b718cf7bcd6e4d4faed';
 const redirectUri = process.env.REACT_APP_URL_PATH;
 const scopes = [
     'playlist-modify-private',
+    'playlist-modify-public',
     'playlist-read-private',
     'user-read-email',
     'user-read-private',
