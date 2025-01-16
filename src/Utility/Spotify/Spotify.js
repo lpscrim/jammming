@@ -1,5 +1,5 @@
 const clientId = 'b2a1a189a8954b718cf7bcd6e4d4faed';
-const redirectUri = `${process.env.URL_PATH}`;
+const redirectUri = process.env.REACT_APP_URL_PATH;
 const scopes = [
     'playlist-modify-private',
     'playlist-read-private',
@@ -242,16 +242,16 @@ async function logout() {
         const timer = setInterval(() => {
             if (spotifyLogoutWindow.closed) {
                 clearInterval(timer);
-                window.location = `${process.env.URL_PATH}`;
+                window.location = `${process.env.REACT_APP_URL_PATH}`;
             }
         }, 1000);
         
         setTimeout(() => {
             spotifyLogoutWindow.close();
-            window.location = `${process.env.URL_PATH}`;
+            window.location = `${process.env.REACT_APP_URL_PATH}`;
         }, 2000);
     } else {
-        window.location = `${process.env.URL_PATH}`;
+        window.location = `${process.env.REACT_APP_URL_PATH}`;
     }
 }
 
