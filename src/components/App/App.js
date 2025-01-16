@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import SearchResults from "../SearchResults/SearchResults";
-import Playlist from "../Playlist/Playlist";
+import Playlist from "../Playlistz/Playlist";
 import PlaylistList from "../PlaylistList/PlaylistList";
 import {
   getUsername,
