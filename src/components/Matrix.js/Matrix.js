@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './Matrix.css';
+
 export default function Matrix() {
   useEffect(() => {
     const state = {
@@ -19,8 +20,6 @@ export default function Matrix() {
 
       p = Array(Math.ceil(w / state.size)).fill(0);
     };
-    window.addEventListener("resize", resize);
-    resize();
 
     const random = (items) => items[Math.floor(Math.random() * items.length)];
 
@@ -29,7 +28,7 @@ export default function Matrix() {
       ctx.fillRect(0, 0, w, h);
       ctx.fillStyle = state.color;
 
-      ctx.font = state.size + "Source Code Pro, sans-serif";
+      ctx.font = state.size + "px Source Code Pro, sans-serif";
       for (let i = 0; i < p.length; i++) {
         let v = p[i];
         ctx.fillText(random(state.charset), i * state.size, v);
@@ -37,11 +36,21 @@ export default function Matrix() {
       }
     };
 
-    let interval = setInterval(draw, 1000 / state.fps);
+    const handleResize = () => {
+      resize();
+      draw();
+    };
+
+    window.addEventListener("resize", handleResize);
+    resize();
+
+    let interval = setInterval(() => {
+      requestAnimationFrame(draw);
+    }, 1000 / state.fps);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
