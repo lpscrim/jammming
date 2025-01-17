@@ -44,7 +44,9 @@ export default function Matrix() {
     window.addEventListener("resize", handleResize);
     resize();
 
-    let interval = setInterval(draw, 1000 / state.fps);
+    let interval = setInterval(() => {
+      requestAnimationFrame(draw);
+    }, 1000 / state.fps);
 
     return () => {
       clearInterval(interval);
