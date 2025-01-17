@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './Matrix.css';
+
 export default function Matrix() {
   useEffect(() => {
     const state = {
@@ -20,15 +21,6 @@ export default function Matrix() {
       p = Array(Math.ceil(w / state.size)).fill(0);
     };
 
-    let resizeTimeout;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(resize, 200);
-    };
-
-    window.addEventListener("resize", handleResize);
-    resize();
-
     const random = (items) => items[Math.floor(Math.random() * items.length)];
 
     const draw = () => {
@@ -44,11 +36,19 @@ export default function Matrix() {
       }
     };
 
+    const handleResize = () => {
+      resize();
+      draw();
+    };
+
+    window.addEventListener("resize", handleResize);
+    resize();
+
     let interval = setInterval(draw, 1000 / state.fps);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
