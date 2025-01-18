@@ -1,22 +1,27 @@
-import React, { useEffect } from "react";
-import "./Matrix.css";
+import React, { useEffect } from 'react';
+import './Matrix.css';
 export default function Matrix() {
   useEffect(() => {
     const state = {
       fps: 15,
       color: "#4e96b3",
       charset: "spotify",
-      size: 15,
+      size: 15
     };
 
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
+    let w, h, p;
+    const resize = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
 
-     let w = canvas.width = window.innerWidth;
-     let h = canvas.height = window.innerHeight;
-     let p = Array(Math.ceil(w / state.size)).fill(0);
- 
+      p = Array(Math.ceil(w / state.size)).fill(0);
+    };
+    window.addEventListener("resize", resize);
+    resize();
+
     const random = (items) => items[Math.floor(Math.random() * items.length)];
 
     const draw = () => {
@@ -32,14 +37,11 @@ export default function Matrix() {
       }
     };
 
-    canvas.width = w;
-    canvas.height = h;
-
     let interval = setInterval(draw, 1000 / state.fps);
 
     return () => {
       clearInterval(interval);
-      
+      window.removeEventListener("resize", resize);
     };
   }, []);
 
