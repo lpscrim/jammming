@@ -1,3 +1,4 @@
+
 .matrix-background {
     z-index: 1;
     position: fixed;
@@ -8,9 +9,11 @@
     pointer-events: none; 
 }
 
+/*
 @media screen and (max-width: 764px) {
     .matrix-background {
         display: none;
     }
     
 }
+*/
