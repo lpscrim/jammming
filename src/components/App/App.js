@@ -103,7 +103,7 @@ function App() {
           <div className="App-list">
             <SearchResults
               results={results}
-              onAdd={onAdd}
+              onAdd={onAdd} 
               onSearchTerm={onSearchTerm}
               searchTerm={searchTerm}
               onSearch={onSearch}

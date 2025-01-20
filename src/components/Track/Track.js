@@ -26,7 +26,7 @@ function Track(props) {
                 <h3>{props.track.name}</h3>
                 <p> {props.track.artist} |  {props.track.album} </p>
             </div>
-            <AudioPlayer className="Player" src={props.track.preview} layout="horizontal" customAdditionalControls={[]} customVolumeControls={[]} showJumpControls={false} />
+            {/*<AudioPlayer className="Player" src={props.track.preview} layout="horizontal" customAdditionalControls={[]} customVolumeControls={[]} showJumpControls={false} />  /*removed as preview api response has now been removed*/}
             {renderButton()}
         </div>
     );
