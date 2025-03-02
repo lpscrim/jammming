@@ -174,32 +174,20 @@ async function getOtherPlaylists(otherUser) {
     return [];
   }
 
-  try {
-    const response = await fetch(
-      `https://api.spotify.com/v1/users/${otherUser}/playlists`,
-      {
-        headers: { Authorization: "Bearer " + currentToken.access_token },
-      }
-    );
-
-    if (!response.ok) {
-      if (response.status === 403) {
-        throw new Error("Access forbidden: Check your scopes and permissions.");
-      }
-      throw new Error("Failed to fetch Other user playlists");
+  const response = await fetch(
+    `https://api.spotify.com/v1/users/${otherUser}/playlists`,
+    {
+      headers: { Authorization: "Bearer " + currentToken.access_token },
     }
+  );
 
-    const jsonResponse = await response.json();
-    console.log("Other User Playlists Response:", jsonResponse);
+  const jsonResponse = await response.json();
+  console.log("Other User Playlists Response:", jsonResponse);
 
-    return jsonResponse.items.map((playlist) => ({
-      id: playlist.id,
-      name: playlist.name,
-    }));
-  } catch (error) {
-    console.error("Error fetching Other User playlists:", error);
-    return [];
-  }
+  return jsonResponse.items.map((playlist) => ({
+    id: playlist.id,
+    name: playlist.name,
+  }));
 }
 
 async function spotifySearch(term) {
@@ -258,7 +246,6 @@ async function savePlaylist(playlistName, saveList) {
 
   const chunks = chunkArray(saveList, 100);
 
-
   for (const chunk of chunks) {
     await fetch(
       `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`,
@@ -309,7 +296,7 @@ async function getPlaylistTracks(playlistId) {
   }
 }
 
-async function getRemainingTracks(total, offset, playlistId){
+async function getRemainingTracks(total, offset, playlistId) {
   const remainingTracks = [];
   const remaining = total - offset;
 
@@ -322,15 +309,16 @@ async function getRemainingTracks(total, offset, playlistId){
     );
 
     const jsonResponse = await response.json();
-    remainingTracks.push(...jsonResponse.items.map((song) => ({
-      id: song.track.id,
-      name: song.track.name,
-      artist: song.track.artists[0].name,
-      album: song.track.album.name,
-      uri: song.track.uri,
-      preview: song.track.preview_url,
-    })));
-
+    remainingTracks.push(
+      ...jsonResponse.items.map((song) => ({
+        id: song.track.id,
+        name: song.track.name,
+        artist: song.track.artists[0].name,
+        album: song.track.album.name,
+        uri: song.track.uri,
+        preview: song.track.preview_url,
+      }))
+    );
   }
 
   return remainingTracks;
@@ -340,6 +328,16 @@ async function logout() {
   localStorage.clear();
   window.location.href = redirectUrl;
 }
+
+function checkTokenExpiration() {
+    const expires = new Date(currentToken.expires);
+    const now = new Date();
+    if (expires <= now) {
+      logout();
+    }
+  }
+  
+  setInterval(checkTokenExpiration, 10000); 
 
 export {
   getAccessToken,

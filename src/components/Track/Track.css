@@ -45,7 +45,7 @@
 .rhap_container {
   width: fit-content;
   padding: 0%;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: transparent;
   outline: none;
   box-shadow: none;
 }
@@ -55,7 +55,7 @@
 }
 
 .rhap_container svg{
-  color:white;
+  color: white;
 }
 
 .rhap_time {
