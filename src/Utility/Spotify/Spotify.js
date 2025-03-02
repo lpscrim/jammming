@@ -1,5 +1,19 @@
-const clientId = 'b2a1a189a8954b718cf7bcd6e4d4faed';
+const clientId = process.env.REACT_APP_CLIENT_ID;
 const redirectUri = process.env.REACT_APP_URL_PATH;
+
+function generateRandomString(length) {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
+
+const state = generateRandomString(16);
+const stateKey = 'spotify_auth_state';
+localStorage.setItem(stateKey, state);
+
 const scopes = [
     'playlist-modify-private',
     'playlist-modify-public',
@@ -7,7 +21,9 @@ const scopes = [
     'user-read-email',
     'user-read-private',
 ];
-const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${encodeURIComponent(scopes.join(' '))}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${encodeURIComponent(scopes.join(' '))}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodeURIComponent(state)}`;
+
+
 let accessToken;
 let username;
 
