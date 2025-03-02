@@ -248,14 +248,27 @@ async function savePlaylist(playlistName, saveList) {
   const jsonResponseNp = await responseNp.json();
   const playlistId = jsonResponseNp.id;
 
-  return await fetch(
-    `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`,
-    {
-      method: "POST",
-      headers: { Authorization: "Bearer " + currentToken.access_token },
-      body: JSON.stringify({ uris: saveList }),
+  const chunkArray = (array, size) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
     }
-  );
+    return result;
+  };
+
+  const chunks = chunkArray(saveList, 100);
+
+
+  for (const chunk of chunks) {
+    await fetch(
+      `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`,
+      {
+        method: "POST",
+        headers: { Authorization: "Bearer " + currentToken.access_token },
+        body: JSON.stringify({ uris: chunk }),
+      }
+    );
+  }
 }
 
 async function getPlaylistTracks(playlistId) {
@@ -275,7 +288,7 @@ async function getPlaylistTracks(playlistId) {
   const jsonResponse = await response.json();
   console.log("Playlist Tracks Response:", jsonResponse);
 
-  return jsonResponse.items.map((song) => ({
+  const trackBatch = jsonResponse.items.map((song) => ({
     id: song.track.id,
     name: song.track.name,
     artist: song.track.artists[0].name,
@@ -283,6 +296,44 @@ async function getPlaylistTracks(playlistId) {
     uri: song.track.uri,
     preview: song.track.preview_url,
   }));
+
+  if (trackBatch.length < jsonResponse.total) {
+    const remainingTracks = await getRemainingTracks(
+      jsonResponse.total,
+      jsonResponse.offset,
+      playlistId
+    );
+    return trackBatch.concat(remainingTracks);
+  } else {
+    return trackBatch;
+  }
+}
+
+async function getRemainingTracks(total, offset, playlistId){
+  const remainingTracks = [];
+  const remaining = total - offset;
+
+  for (let i = 100; i < remaining; i += 100) {
+    const response = await fetch(
+      `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks?offset=${i}`,
+      {
+        headers: { Authorization: "Bearer " + currentToken.access_token },
+      }
+    );
+
+    const jsonResponse = await response.json();
+    remainingTracks.push(...jsonResponse.items.map((song) => ({
+      id: song.track.id,
+      name: song.track.name,
+      artist: song.track.artists[0].name,
+      album: song.track.album.name,
+      uri: song.track.uri,
+      preview: song.track.preview_url,
+    })));
+
+  }
+
+  return remainingTracks;
 }
 
 async function logout() {
