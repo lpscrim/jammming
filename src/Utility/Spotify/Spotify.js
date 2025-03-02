@@ -87,7 +87,6 @@ async function redirectToSpotifyAuthorize() {
 }
 
 
-let accessToken;
 let username;
 
 async function getAccessToken(code) {
@@ -125,22 +124,8 @@ async function getUsername() {
   }
 }
 
-async function waitForAccessToken() {
-  while (!accessToken) {
-    accessToken = getAccessToken();
-    await new Promise((resolve) => setTimeout(resolve, 100));
-  }
-  return accessToken;
-}
-
 async function getUserPlaylists() {
-  await waitForAccessToken();
-  console.log("Access Token:", accessToken);
-
-  if (!accessToken) {
-    console.error("Access token is undefined.");
-    return [];
-  }
+  console.log("Access Token:", currentToken.access_token);
 
   await getUsername();
   console.log("Username:", username);
@@ -154,19 +139,9 @@ async function getUserPlaylists() {
     const response = await fetch(
       `https://api.spotify.com/v1/users/${username}/playlists`,
       {
-        headers: { Authorization: "Bearer " + accessToken },
+        headers: { Authorization: "Bearer " + currentToken.access_token },
       }
     );
-
-    if (!response.ok) {
-      if (response.status === 403) {
-        accessToken = "";
-        const url = window.location.href;
-        window.location = url;
-        throw new Error("Access forbidden: Check your scopes and permissions.");
-      }
-      throw new Error("Failed to fetch user playlists");
-    }
 
     const jsonResponse = await response.json();
     console.log("User Playlists Response:", jsonResponse);
@@ -182,10 +157,10 @@ async function getUserPlaylists() {
 }
 
 async function getOtherPlaylists(otherUser) {
-  await waitForAccessToken();
-  console.log("Access Token:", accessToken);
 
-  if (!accessToken) {
+  console.log("Access Token:", currentToken.access_token);
+
+  if (!currentToken.access_token) {
     console.error("Access token is undefined.");
     return [];
   }
@@ -201,7 +176,7 @@ async function getOtherPlaylists(otherUser) {
     const response = await fetch(
       `https://api.spotify.com/v1/users/${otherUser}/playlists`,
       {
-        headers: { Authorization: "Bearer " + accessToken },
+        headers: { Authorization: "Bearer " + currentToken.access_token },
       }
     );
 
@@ -226,13 +201,12 @@ async function getOtherPlaylists(otherUser) {
 }
 
 async function spotifySearch(term) {
-  accessToken = getAccessToken();
-  console.log("Access Token for search:", accessToken);
+  console.log("Access Token for search:", currentToken.access_token);
 
   const response = await fetch(
     `https://api.spotify.com/v1/search?q=${term}&type=artist,track,album`,
     {
-      headers: { Authorization: "Bearer " + accessToken },
+      headers: { Authorization: "Bearer " + currentToken.access_token },
     }
   );
 
@@ -255,7 +229,6 @@ async function spotifySearch(term) {
 }
 
 async function savePlaylist(playlistName, saveList) {
-  accessToken = getAccessToken();
   await getUsername();
 
   const responseNp = await fetch(
@@ -264,7 +237,7 @@ async function savePlaylist(playlistName, saveList) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
+        Authorization: "Bearer " + currentToken.access_token,
       },
       body: JSON.stringify({ name: playlistName }),
     }
@@ -277,24 +250,23 @@ async function savePlaylist(playlistName, saveList) {
     `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`,
     {
       method: "POST",
-      headers: { Authorization: "Bearer " + accessToken },
+      headers: { Authorization: "Bearer " + currentToken.access_token },
       body: JSON.stringify({ uris: saveList }),
     }
   );
 }
 
 async function getPlaylistTracks(playlistId) {
-  accessToken = getAccessToken();
-  await getUsername();
+ await getUsername();
 
-  console.log("Access Token:", accessToken);
+  console.log("Access Token:", currentToken.access_token);
   console.log("Username:", username);
   console.log("Playlist ID:", playlistId);
 
   const response = await fetch(
     `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`,
     {
-      headers: { Authorization: "Bearer " + accessToken },
+      headers: { Authorization: "Bearer " + currentToken.access_token },
     }
   );
 
@@ -312,8 +284,8 @@ async function getPlaylistTracks(playlistId) {
 }
 
 async function logout() {
-  accessToken = "";
-  username = "";
+    currentToken.refresh_token = "";
+    username = "";
 
   const url = "https://www.spotify.com/logout/";
   const spotifyLogoutWindow = window.open(
