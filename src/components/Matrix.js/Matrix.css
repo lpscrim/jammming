@@ -10,6 +10,13 @@
     overflow: visible;
 }
 
+.on {
+    display: block;
+  }
+  
+  .off {
+    display: none;
+  }
 
 @media screen and (max-width: 764px) {
     .matrix-background {

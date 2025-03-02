@@ -25,6 +25,7 @@ function App() {
   const [otherPlaylists, setOtherPlaylists] = useState([]);
   const [username, setUsername] = useState("User");
   const [otherUser, setOtherUser] = useState("Target User");
+  const [matrix, setMatrix] = useState(false);
 
   useEffect(() => {
     // Retrieve the access token when the component mounts
@@ -94,11 +95,15 @@ function App() {
     logout();
   }
 
+  function onMatrix() {
+    setMatrix(!matrix);
+  }
+
   return (
     <div className="App">
-      <Matrix />
+      <Matrix on={matrix}/>
       <div className="Main">
-        <h1>SPOTIFY PLAYLIST STEALER</h1>
+        <h1>SPOTIFY PLAYLIST STEALER</h1> 
         <div className="App-body">
           <div className="App-list">
             <SearchResults
@@ -137,6 +142,7 @@ function App() {
         <div className="logout">
           <button onClick={onLogout}>Logout</button>
         </div>
+        
         <div className="Player">
           <iframe
             title="Spotify Player"
@@ -149,6 +155,7 @@ function App() {
             loading="lazy"
           ></iframe>
         </div>
+        <button className="matrix" onClick={onMatrix}>マトリックス</button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './Matrix.css';
-export default function Matrix() {
+export default function Matrix({ on }) {
   useEffect(() => {
     const state = {
       fps: 15,
@@ -43,10 +43,10 @@ export default function Matrix() {
       clearInterval(interval);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [on]);
 
   return (
-    <div className="matrix-background">
+    <div className={`matrix-background ${on ? "on" : "off"}`}>
       <canvas id="canvas"></canvas>
     </div>
   );
