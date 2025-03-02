@@ -170,8 +170,7 @@ async function getOtherPlaylists(otherUser) {
   console.log("Other Username:", otherUser);
 
   if (!otherUser) {
-    console.error("Other Username is undefined.");
-    return [];
+    throw new Error("Other Username is undefined.");
   }
 
   const response = await fetch(

@@ -97,12 +97,12 @@ h2 {
   color: #fff;
   font-weight: 600;
   border-radius: 54px;
+  margin-bottom: 10px;
 }
 
 .matrix:hover {
   background-color: rgba(18, 79, 129, 0.7);
 }
-
   
 
 .Player {
@@ -138,4 +138,8 @@ h2 {
     text-align: center;
     order: 1; 
   }
+}
+
+@media screen and (max-width: 764px) {
+ .matrix { display: none; }
 }
