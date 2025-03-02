@@ -3,7 +3,7 @@ import "./App.css";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
 import PlaylistList from "../PlaylistList/PlaylistList";
-import Matrix from "../Matrix.js/Matrix";
+import Matrix from "../Matrix/Matrix";
 import {
   logout,
   getUsername,
