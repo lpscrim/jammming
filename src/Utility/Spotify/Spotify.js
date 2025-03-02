@@ -5,7 +5,6 @@ const scope =
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 
-
 //TOKEN//
 const currentToken = {
   get access_token() {
@@ -83,9 +82,9 @@ async function redirectToSpotifyAuthorize() {
   };
 
   authUrl.search = new URLSearchParams(params).toString();
-  window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
+  window.localStorage.setItem("redirected", "true");
+  window.location.href = authUrl.toString();
 }
-
 
 let username;
 
@@ -113,6 +112,10 @@ async function getUsername() {
   if (username) {
     return username;
   } else {
+    if (!localStorage.getItem("redirected")) {
+      redirectToSpotifyAuthorize();
+    } else {
+    }
     const response = await fetch("https://api.spotify.com/v1/me", {
       method: "GET",
       headers: { Authorization: "Bearer " + currentToken.access_token },
@@ -157,7 +160,6 @@ async function getUserPlaylists() {
 }
 
 async function getOtherPlaylists(otherUser) {
-
   console.log("Access Token:", currentToken.access_token);
 
   if (!currentToken.access_token) {
@@ -257,7 +259,7 @@ async function savePlaylist(playlistName, saveList) {
 }
 
 async function getPlaylistTracks(playlistId) {
- await getUsername();
+  await getUsername();
 
   console.log("Access Token:", currentToken.access_token);
   console.log("Username:", username);
@@ -284,31 +286,8 @@ async function getPlaylistTracks(playlistId) {
 }
 
 async function logout() {
-    currentToken.refresh_token = "";
-    username = "";
-
-  const url = "https://www.spotify.com/logout/";
-  const spotifyLogoutWindow = window.open(
-    url,
-    "Spotify Logout",
-    "width=700,height=500,top=40,left=40"
-  );
-
-  if (spotifyLogoutWindow) {
-    const timer = setInterval(() => {
-      if (spotifyLogoutWindow.closed) {
-        clearInterval(timer);
-        window.location = `${process.env.REACT_APP_URL_PATH}`;
-      }
-    }, 1000);
-
-    setTimeout(() => {
-      spotifyLogoutWindow.close();
-      window.location = `${process.env.REACT_APP_URL_PATH}`;
-    }, 2000);
-  } else {
-    window.location = `${process.env.REACT_APP_URL_PATH}`;
-  }
+  localStorage.clear();
+  window.location.href = redirectUrl;
 }
 
 export {
