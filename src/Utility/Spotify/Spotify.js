@@ -1,275 +1,351 @@
-const clientId = process.env.REACT_APP_CLIENT_ID;
-const redirectUri = process.env.REACT_APP_URL_PATH;
+const clientId = "87cfc90456484b70a7997e4351f62239";
+const redirectUrl = process.env.REACT_APP_URL_PATH;
+const scope =
+  "playlist-modify-private playlist-modify-public playlist-read-private user-read-email user-read-private";
+const authorizationEndpoint = "https://accounts.spotify.com/authorize";
+const tokenEndpoint = "https://accounts.spotify.com/api/token";
 
-function generateRandomString(length) {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
+
+//TOKEN//
+const currentToken = {
+  get access_token() {
+    return localStorage.getItem("access_token") || null;
+  },
+  get refresh_token() {
+    return localStorage.getItem("refresh_token") || null;
+  },
+  get expires_in() {
+    return localStorage.getItem("refresh_in") || null;
+  },
+  get expires() {
+    return localStorage.getItem("expires") || null;
+  },
+
+  save: function (response) {
+    const { access_token, refresh_token, expires_in } = response;
+    localStorage.setItem("access_token", access_token);
+    localStorage.setItem("refresh_token", refresh_token);
+    localStorage.setItem("expires_in", expires_in);
+
+    const now = new Date();
+    const expiry = new Date(now.getTime() + expires_in * 1000);
+    localStorage.setItem("expires", expiry);
+  },
+};
+
+const args = new URLSearchParams(window.location.search);
+const code = args.get("code");
+
+if (code) {
+  (async () => {
+    const token = await getAccessToken(code);
+    currentToken.save(token);
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("code");
+
+    const updatedUrl = url.search ? url.href : url.href.replace("?", "");
+    window.history.replaceState({}, document.title, updatedUrl);
+  })();
 }
 
-const state = generateRandomString(16);
-const stateKey = 'spotify_auth_state';
-localStorage.setItem(stateKey, state);
+//AUTH LOGIC//
+async function redirectToSpotifyAuthorize() {
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const randomValues = crypto.getRandomValues(new Uint8Array(64));
+  const randomString = randomValues.reduce(
+    (acc, x) => acc + possible[x % possible.length],
+    ""
+  );
 
-const scopes = [
-    'playlist-modify-private',
-    'playlist-modify-public',
-    'playlist-read-private',
-    'user-read-email',
-    'user-read-private',
-];
-const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${encodeURIComponent(scopes.join(' '))}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodeURIComponent(state)}`;
+  const code_verifier = randomString;
+  const data = new TextEncoder().encode(code_verifier);
+  const hashed = await crypto.subtle.digest("SHA-256", data);
+
+  const code_challenge_base64 = btoa(
+    String.fromCharCode(...new Uint8Array(hashed))
+  )
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+
+  window.localStorage.setItem("code_verifier", code_verifier);
+
+  const authUrl = new URL(authorizationEndpoint);
+  const params = {
+    response_type: "code",
+    client_id: clientId,
+    scope: scope,
+    code_challenge_method: "S256",
+    code_challenge: code_challenge_base64,
+    redirect_uri: redirectUrl,
+  };
+
+  authUrl.search = new URLSearchParams(params).toString();
+  window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
+}
 
 
 let accessToken;
 let username;
 
-async function getUsername() {
-    if (username) {    
-        return username;
-    } else {
-        try {
-            console.log("Fetching username with access token:", accessToken);
-            const response = await fetch("https://api.spotify.com/v1/me", {
-                headers: { Authorization: "Bearer " + accessToken }
-            });
+async function getAccessToken(code) {
+  const code_verifier = localStorage.getItem("code_verifier");
 
-            if (!response.ok) {
-                if (response.status === 403) {
-                    throw new Error('Access forbidden: Check your scopes and permissions.');
-                }
-                throw new Error('Failed to fetch username');
-            }
+  const response = await fetch(tokenEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      client_id: clientId,
+      grant_type: "authorization_code",
+      code: code,
+      redirect_uri: redirectUrl,
+      code_verifier: code_verifier,
+    }),
+  });
 
-            const jsonResponse = await response.json();
-            username = jsonResponse.id;
-            console.log("Fetched Username:", username);
-            return username;
-        } catch (error) {
-            console.error("Error fetching username:", error);
-        }
-    }
+  return await response.json();
 }
 
-function getAccessToken() {
-    if (accessToken) {
-        return accessToken;    
-    }
-
-    let urlParams = new URLSearchParams(window.location.hash.slice(1));
-    let urlAccessToken = urlParams.get("access_token");
-    let urlExpiresIn = urlParams.get("expires_in");
-
-    if (urlAccessToken && urlExpiresIn) {
-        accessToken = urlAccessToken;
-        let expiresIn = Number(urlExpiresIn);
-        setTimeout(() => {
-            accessToken = '';
-        }, expiresIn * 1000);
-
-        window.history.pushState({}, null, '/');
-        console.log("Access Token Set:", accessToken);
-        return accessToken;
-    } else {
-        console.log('Redirecting to authorization URL:', url);
-        window.location = url;
-    }
+async function getUsername() {
+  if (username) {
+    return username;
+  } else {
+    const response = await fetch("https://api.spotify.com/v1/me", {
+      method: "GET",
+      headers: { Authorization: "Bearer " + currentToken.access_token },
+    });
+    const jsonResponse = await response.json();
+    username = jsonResponse.id;
+    console.log("Fetched Username:", username);
+    return username;
+  }
 }
 
 async function waitForAccessToken() {
-    while (!accessToken) {
-        accessToken = getAccessToken();
-        await new Promise(resolve => setTimeout(resolve, 100));
-    }
-    return accessToken;
+  while (!accessToken) {
+    accessToken = getAccessToken();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  return accessToken;
 }
 
 async function getUserPlaylists() {
-    await waitForAccessToken();
-    console.log("Access Token:", accessToken);
+  await waitForAccessToken();
+  console.log("Access Token:", accessToken);
 
-    if (!accessToken) {
-        console.error("Access token is undefined.");
-        return [];
+  if (!accessToken) {
+    console.error("Access token is undefined.");
+    return [];
+  }
+
+  await getUsername();
+  console.log("Username:", username);
+
+  if (!username) {
+    console.error("Username is undefined.");
+    return [];
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.spotify.com/v1/users/${username}/playlists`,
+      {
+        headers: { Authorization: "Bearer " + accessToken },
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        accessToken = "";
+        const url = window.location.href;
+        window.location = url;
+        throw new Error("Access forbidden: Check your scopes and permissions.");
+      }
+      throw new Error("Failed to fetch user playlists");
     }
 
-    await getUsername();
-    console.log("Username:", username);
+    const jsonResponse = await response.json();
+    console.log("User Playlists Response:", jsonResponse);
 
-    if (!username) {
-        console.error("Username is undefined.");
-        return [];
-    }
-
-    try {
-        const response = await fetch(`https://api.spotify.com/v1/users/${username}/playlists`, {
-            headers: { Authorization: "Bearer " + accessToken }
-        });
-
-        
-        if (!response.ok) {
-            if (response.status === 403) {
-                accessToken = '';
-                window.location = url;
-                throw new Error('Access forbidden: Check your scopes and permissions.');
-            }
-            throw new Error('Failed to fetch user playlists');
-        }
-
-        const jsonResponse = await response.json();
-        console.log("User Playlists Response:", jsonResponse);
-
-        return jsonResponse.items.map(playlist => ({
-            id: playlist.id,
-            name: playlist.name,
-        }));
-    } catch (error) {
-        console.error("Error fetching user playlists:", error);
-        return [];
-    }
+    return jsonResponse.items.map((playlist) => ({
+      id: playlist.id,
+      name: playlist.name,
+    }));
+  } catch (error) {
+    console.error("Error fetching user playlists:", error);
+    return [];
+  }
 }
 
 async function getOtherPlaylists(otherUser) {
-    await waitForAccessToken();
-    console.log("Access Token:", accessToken);
+  await waitForAccessToken();
+  console.log("Access Token:", accessToken);
 
-    if (!accessToken) {
-        console.error("Access token is undefined.");
-        return [];
+  if (!accessToken) {
+    console.error("Access token is undefined.");
+    return [];
+  }
+
+  console.log("Other Username:", otherUser);
+
+  if (!otherUser) {
+    console.error("Other Username is undefined.");
+    return [];
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.spotify.com/v1/users/${otherUser}/playlists`,
+      {
+        headers: { Authorization: "Bearer " + accessToken },
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error("Access forbidden: Check your scopes and permissions.");
+      }
+      throw new Error("Failed to fetch Other user playlists");
     }
-
-    console.log("Other Username:", otherUser);
-
-    if (!otherUser) {
-        console.error("Other Username is undefined.");
-        return [];
-    }
-
-    try {
-        const response = await fetch(`https://api.spotify.com/v1/users/${otherUser}/playlists`, {
-            headers: { Authorization: "Bearer " + accessToken }
-        });
-
-        if (!response.ok) {
-            if (response.status === 403) {
-                throw new Error('Access forbidden: Check your scopes and permissions.');
-            }
-            throw new Error('Failed to fetch Other user playlists');
-        }
-
-        const jsonResponse = await response.json();
-        console.log("Other User Playlists Response:", jsonResponse);
-
-        return jsonResponse.items.map(playlist => ({
-            id: playlist.id,
-            name: playlist.name,
-        }));
-    } catch (error) {
-        console.error("Error fetching Other User playlists:", error);
-        return [];
-    }
-}
-
-
-async function spotifySearch(term) {
-    accessToken = getAccessToken();
-    console.log("Access Token for search:", accessToken);
-
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${term}&type=artist,track,album`, {
-        headers: { Authorization: "Bearer " + accessToken }
-    });
 
     const jsonResponse = await response.json();
-    console.log("Search Response:", jsonResponse);
+    console.log("Other User Playlists Response:", jsonResponse);
 
-    if (!jsonResponse.tracks) {
-        console.log('No tracks returned');
-        return [];
-    }
-
-    return jsonResponse.tracks.items.map(track => ({
-        id: track.id,
-        name: track.name,
-        artist: track.artists[0].name,
-        album: track.album.name,
-        uri: track.uri,
-        preview: track.preview_url
+    return jsonResponse.items.map((playlist) => ({
+      id: playlist.id,
+      name: playlist.name,
     }));
+  } catch (error) {
+    console.error("Error fetching Other User playlists:", error);
+    return [];
+  }
+}
+
+async function spotifySearch(term) {
+  accessToken = getAccessToken();
+  console.log("Access Token for search:", accessToken);
+
+  const response = await fetch(
+    `https://api.spotify.com/v1/search?q=${term}&type=artist,track,album`,
+    {
+      headers: { Authorization: "Bearer " + accessToken },
+    }
+  );
+
+  const jsonResponse = await response.json();
+  console.log("Search Response:", jsonResponse);
+
+  if (!jsonResponse.tracks) {
+    console.log("No tracks returned");
+    return [];
+  }
+
+  return jsonResponse.tracks.items.map((track) => ({
+    id: track.id,
+    name: track.name,
+    artist: track.artists[0].name,
+    album: track.album.name,
+    uri: track.uri,
+    preview: track.preview_url,
+  }));
 }
 
 async function savePlaylist(playlistName, saveList) {
-    accessToken = getAccessToken();
-    await getUsername();
+  accessToken = getAccessToken();
+  await getUsername();
 
-    const responseNp = await fetch(`https://api.spotify.com/v1/users/${username}/playlists`, {
-        method: "POST",
-        headers: { 
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + accessToken
-        }, 
-        body: JSON.stringify({ name: playlistName })
-    });
+  const responseNp = await fetch(
+    `https://api.spotify.com/v1/users/${username}/playlists`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+      body: JSON.stringify({ name: playlistName }),
+    }
+  );
 
-    const jsonResponseNp = await responseNp.json();
-    const playlistId = jsonResponseNp.id;
+  const jsonResponseNp = await responseNp.json();
+  const playlistId = jsonResponseNp.id;
 
-    return await fetch(`https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`, {
-        method: "POST",    
-        headers: { Authorization: "Bearer " + accessToken },
-        body: JSON.stringify({ uris: saveList }),
-    });
+  return await fetch(
+    `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`,
+    {
+      method: "POST",
+      headers: { Authorization: "Bearer " + accessToken },
+      body: JSON.stringify({ uris: saveList }),
+    }
+  );
 }
 
 async function getPlaylistTracks(playlistId) {
-    accessToken = getAccessToken();
-    await getUsername();
+  accessToken = getAccessToken();
+  await getUsername();
 
-    console.log("Access Token:", accessToken);
-    console.log("Username:", username);
-    console.log("Playlist ID:", playlistId);
+  console.log("Access Token:", accessToken);
+  console.log("Username:", username);
+  console.log("Playlist ID:", playlistId);
 
-    const response = await fetch(`https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`, {
-        headers: { Authorization: "Bearer " + accessToken }
-    });
+  const response = await fetch(
+    `https://api.spotify.com/v1/users/${username}/playlists/${playlistId}/tracks`,
+    {
+      headers: { Authorization: "Bearer " + accessToken },
+    }
+  );
 
-    const jsonResponse = await response.json();
-    console.log("Playlist Tracks Response:", jsonResponse);
+  const jsonResponse = await response.json();
+  console.log("Playlist Tracks Response:", jsonResponse);
 
-    return jsonResponse.items.map(song => ({
-        id: song.track.id,
-        name: song.track.name,
-        artist: song.track.artists[0].name,
-        album: song.track.album.name,
-        uri: song.track.uri,
-        preview: song.track.preview_url
-    }));
+  return jsonResponse.items.map((song) => ({
+    id: song.track.id,
+    name: song.track.name,
+    artist: song.track.artists[0].name,
+    album: song.track.album.name,
+    uri: song.track.uri,
+    preview: song.track.preview_url,
+  }));
 }
 
 async function logout() {
-    accessToken = '';
-    username = '';
-    
-    const url = 'https://www.spotify.com/logout/';
-    const spotifyLogoutWindow = window.open(url, 'Spotify Logout', 'width=700,height=500,top=40,left=40');
-    
-    if (spotifyLogoutWindow) {
-        const timer = setInterval(() => {
-            if (spotifyLogoutWindow.closed) {
-                clearInterval(timer);
-                window.location = `${process.env.REACT_APP_URL_PATH}`;
-            }
-        }, 1000);
-        
-        setTimeout(() => {
-            spotifyLogoutWindow.close();
-            window.location = `${process.env.REACT_APP_URL_PATH}`;
-        }, 2000);
-    } else {
+  accessToken = "";
+  username = "";
+
+  const url = "https://www.spotify.com/logout/";
+  const spotifyLogoutWindow = window.open(
+    url,
+    "Spotify Logout",
+    "width=700,height=500,top=40,left=40"
+  );
+
+  if (spotifyLogoutWindow) {
+    const timer = setInterval(() => {
+      if (spotifyLogoutWindow.closed) {
+        clearInterval(timer);
         window.location = `${process.env.REACT_APP_URL_PATH}`;
-    }
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      spotifyLogoutWindow.close();
+      window.location = `${process.env.REACT_APP_URL_PATH}`;
+    }, 2000);
+  } else {
+    window.location = `${process.env.REACT_APP_URL_PATH}`;
+  }
 }
 
-export { getAccessToken, logout, getOtherPlaylists, getUsername, spotifySearch, savePlaylist, getUserPlaylists, getPlaylistTracks };
+export {
+  getAccessToken,
+  logout,
+  getOtherPlaylists,
+  getUsername,
+  spotifySearch,
+  savePlaylist,
+  getUserPlaylists,
+  getPlaylistTracks,
+};
